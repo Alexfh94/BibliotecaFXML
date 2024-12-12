@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static com.carballeira.practica1.utils.AlertUtils.showConfirmationAlert;
+import static com.carballeira.practica1.utils.AlertUtils.showInfoAlert;
+
 public class MenuController {
 
     private String administrador = "";
@@ -54,21 +57,33 @@ public class MenuController {
     @FXML
     private void crearUsuarioAction() {
         try {
+            // Obtener el escenario actual (ventana del menú)
+            Stage currentStage = (Stage) crearUsuario.getScene().getWindow();
+            // Ocultar la ventana del menú
+            currentStage.hide();
+
             // Cargar el archivo FXML de la ventana de creación de usuario
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/carballeira/practica1/register-view.fxml"));
             Scene scene = new Scene(loader.load());
 
-            // Crear un nuevo escenario (ventana)
+            // Crear un nuevo escenario (ventana de creación de usuario)
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("Crear Usuario");
+
+            // Mostrar la ventana de creación de usuario
             stage.show();
+
+            // Establecer un listener para cerrar la ventana de creación de usuario y mostrar nuevamente la ventana del menú
+            stage.setOnCloseRequest(e -> currentStage.show());
+
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.");
             alert.showAndWait();
         }
     }
+
 
     @FXML
     private void cerrarSesionAction() {
@@ -79,9 +94,7 @@ public class MenuController {
             if (response == ButtonType.YES) {
                 administrador = "";
                 configurarBotonesIniciales();
-                Alert cerrado = new Alert(Alert.AlertType.INFORMATION, "Sesion Cerrada");
-                confirmacion.setHeaderText(null);
-                confirmacion.setTitle("Sesion Cerrada");
+                showInfoAlert("Sesion cerrada","Sesion cerrada");
             }
         });
     }
@@ -118,15 +131,12 @@ public class MenuController {
 
     @FXML
     private void botonSalirAction() {
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro de que deseas salir del programa?", ButtonType.YES, ButtonType.NO);
-        confirmacion.setHeaderText(null);
-        confirmacion.setTitle("Confirmar salida");
-        confirmacion.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-                System.out.println("Saliendo del programa");
-                Stage stage = (Stage) botonSalir.getScene().getWindow();
-                stage.close();
-            }
+        // Usamos AlertUtils para mostrar la alerta de confirmación
+            showConfirmationAlert("Confirmar salida", "¿Estás seguro de que deseas salir del programa?", () -> {
+            System.out.println("Saliendo del programa");
+            Stage stage = (Stage) botonSalir.getScene().getWindow();
+            stage.close();
         });
     }
+
 }

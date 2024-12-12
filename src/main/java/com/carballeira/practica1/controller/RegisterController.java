@@ -1,10 +1,19 @@
 package com.carballeira.practica1.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+
+import java.io.IOException;
+
+import static com.carballeira.practica1.utils.AlertUtils.showErrorAlert;
 
 public class RegisterController {
 
@@ -19,6 +28,7 @@ public class RegisterController {
 
     @FXML
     private Button crearUsuario, botonVolver, mostrarContraseña;
+
 
     private int contador = 0;
 
@@ -51,37 +61,51 @@ public class RegisterController {
         String contraseña1 = contraseña.getText();
 
         if (validarCampos(nombre1, email1, telefono1, contraseña1)) {
-           //TODO ABRIR VENTANA DE CAPTCHA
+            // TODO ABRIR VENTANA DE CAPTCHA
 
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/carballeira/practica1/captcha-view.fxml"));
+                Parent root = loader.load();  // Cargar la vista FXML
+                CaptchaController captchaController = loader.getController();  // Obtener el controlador automáticamente
+                captchaController.initData(nombre1, email1, telefono1, contraseña1);
+
+                // Mostrar la nueva ventana (captcha)
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Verificación CAPTCHA");
+                stage.show();
+
+                // Cerrar la ventana actual de registro
+                Stage currentStage = (Stage) crearUsuario.getScene().getWindow();
+                currentStage.hide();
+
+            } catch (IOException e) {
+                e.printStackTrace(); // Imprimir la traza del error
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana de CAPTCHA.");
+                alert.showAndWait();
+            }
         }
     }
 
     private boolean validarCampos(String nombre, String email, String telefono, String contraseña) {
-        if (nombre.isEmpty()) {
-            showAlert("Error", "El nombre no puede estar vacío.");
-            return false;
-        }
-        if (!email.contains("@")) {
-            showAlert("Error", "El formato del email es incorrecto.");
-            return false;
-        }
-        if (!telefono.matches("[1-9]+") || telefono.length() != 9) {
-            showAlert("Error", "El teléfono debe tener 9 dígitos y solo contener números.");
-            return false;
-        }
-        if (contraseña.isEmpty()) {
-            showAlert("Error", "La contraseña no puede estar vacía.");
-            return false;
-        }
+        //TODO DESCOMENTAR TRAS LAS PRUEBAS
+//        if (nombre.isEmpty()) {
+//            showErrorAlert("Error", "El nombre no puede estar vacío.");
+//            return false;
+//        }
+//        if (!email.contains("@")) {
+//            showErrorAlert("Error", "El formato del email es incorrecto.");
+//            return false;
+//        }
+//        if (!telefono.matches("[1-9]+") || telefono.length() != 9) {
+//            showErrorAlert("Error", "El teléfono debe tener 9 dígitos y solo contener números.");
+//            return false;
+//        }
+//        if (contraseña.isEmpty()) {
+//            showErrorAlert("Error", "La contraseña no puede estar vacía.");
+//            return false;
+//        }
         return true;
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     @FXML
@@ -105,7 +129,9 @@ public class RegisterController {
 
     @FXML
     private void botonVolverAction() {
-        // Cierra la pantalla actual y vuelve atrás
+        // Disparar el evento de cierre como si el usuario hubiera presionado la "X"
+        Stage currentStage = (Stage) botonVolver.getScene().getWindow();
+        currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
     private void actualizarEstadoBoton() {
