@@ -1,0 +1,113 @@
+/* General style for the window */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f5f5f5; /* Light gray background */
+    -fx-padding: 20px;
+    -fx-pref-width: 600px;
+    -fx-pref-height: 400px;
+}
+
+/* Title style */
+#menu-title {
+    -fx-font-family: "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 24px;
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-padding: 20px 0;
+}
+
+/* Label styles */
+.label {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-padding: 10px 0;
+}
+
+/* TextField styles */
+.text-field {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 35px;
+    -fx-font-size: 14px;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* PasswordField styles */
+.password-field {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 35px;
+    -fx-font-size: 14px;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Button styles */
+.button {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-color: #007bff; /* Blue background */
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-weight: bold;
+}
+
+/* Hover effect for buttons */
+.button:hover {
+    -fx-background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* 'Mostrar' button specific styles */
+#mostrarContraseña {
+    -fx-pref-width: 100px;
+    -fx-pref-height: 35px;
+    -fx-font-size: 12px;
+    -fx-background-color: transparent;
+    -fx-text-fill: #007bff;
+    -fx-border-color: transparent;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+/* Hover effect for 'Mostrar' button */
+#mostrarContraseña:hover {
+    -fx-background-color: #f0f8ff; /* Light blue on hover */
+}
+
+/* 'Crear Usuario' button */
+#crearUsuario {
+    -fx-background-color: #28a745; /* Green background */
+}
+
+#crearUsuario:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+/* 'Volver' button */
+#botonVolver {
+    -fx-background-color: #dc3545; /* Red background */
+}
+
+#botonVolver:hover {
+    -fx-background-color: #c82333; /* Darker red on hover */
+}
+
+/* Focus effect on text fields and password field */
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #007bff; /* Blue border on focus */
+}
+
+/* Optional: Align elements and add spacing between form fields */
+.form-container {
+    -fx-alignment: center;
+    -fx-spacing: 15px;
+    -fx-padding: 20px;
+}

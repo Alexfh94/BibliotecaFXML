@@ -1,0 +1,43 @@
+/* General style for the window */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10;
+    -fx-pref-width: 600px;
+    -fx-pref-height: 400px;
+}
+
+/* Title style */
+#menu-title {
+    -fx-font-family: "Copperplate Gothic Light";
+    -fx-font-size: 36px;
+    -fx-text-fill: #333;
+    -fx-alignment: center;
+    -fx-padding: 20px 0;
+}
+
+/* General button style */
+#main-button, #exit-button {
+    -fx-pref-width: 250px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/* Hover effect for buttons */
+#main-button:hover, #exit-button:hover {
+    -fx-background-color: #0056b3;
+}
+
+/* Exit button specific style */
+#exit-button {
+    -fx-background-color: #dc3545;
+    -fx-font-weight: bold;
+}
+
+#exit-button:hover {
+    -fx-background-color: #a71d2a;
+}

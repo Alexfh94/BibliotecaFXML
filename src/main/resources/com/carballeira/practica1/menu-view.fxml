@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.carballeira.practica1.controller.MenuController"
+      alignment="CENTER" spacing="20"
+      stylesheets="@css/menuStyles.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Título -->
+    <Label text="MENU" id="menu-title" alignment="CENTER"/>
+
+    <!-- Botones principales -->
+    <VBox spacing="10" alignment="CENTER">
+        <Button fx:id="inicioSesion" text="Iniciar Sesion" id="main-button" onAction="#inicioSesionAction"/>
+        <Button fx:id="crearUsuario" text="Crear Usuario" id="main-button" onAction="#crearUsuarioAction"/>
+        <Button fx:id="cerrarSesion" text="Cerrar Sesion" id="main-button" onAction="#cerrarSesionAction"/>
+        <Button fx:id="realizarDevolucion" text="Realizar una Devolucion" id="main-button" onAction="#realizarDevolucionAction"/>
+        <Button fx:id="realizarPrestamo" text="Realizar un Prestamo" id="main-button" onAction="#realizarPrestamoAction"/>
+        <Button fx:id="buscarUsuario" text="Buscar Usuario" id="main-button" onAction="#buscarUsuarioAction"/>
+        <Button fx:id="editarUsuario" text="Modificar Usuario" id="main-button" onAction="#editarUsuarioAction"/>
+        <Button fx:id="borrarUsuario" text="Borrar Usuario" id="main-button" onAction="#borrarUsuarioAction"/>
+    </VBox>
+
+    <!-- Botón Salir -->
+    <HBox alignment="CENTER" spacing="10">
+        <Button fx:id="botonSalir" text="Salir" id="exit-button" onAction="#botonSalirAction"/>
+    </HBox>
+</VBox>
