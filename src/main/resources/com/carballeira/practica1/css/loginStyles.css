@@ -1,0 +1,62 @@
+/* General style for the window */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10;
+    -fx-pref-width: 600px;
+    -fx-pref-height: 400px;
+}
+
+/* Title style */
+#menuTitle {
+    -fx-font-family: "Copperplate Gothic Bold";
+    -fx-font-size: 36px;
+    -fx-text-fill: #333;
+    -fx-alignment: center;
+    -fx-padding: 20px 0;
+}
+
+/* General button style */
+#inicioSesion, #botonVolver {
+    -fx-pref-width: 250px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/* Hover effect for buttons */
+#inicioSesion:hover, #botonVolver:hover {
+    -fx-background-color: #0056b3;
+}
+
+/* Exit button specific style */
+#botonVolver {
+    -fx-background-color: #dc3545;
+    -fx-font-weight: bold;
+}
+
+#botonVolver:hover {
+    -fx-background-color: #a71d2a;
+}
+
+/* VBox and ProgressBar styling */
+VBox {
+    -fx-alignment: center;
+}
+
+ProgressBar {
+    -fx-accent: #33ff33;
+}
+#mostrarContraseña {
+    -fx-pref-width: 100px;
+    -fx-pref-height: 35px;
+    -fx-font-size: 12px;
+    -fx-background-color: transparent;
+    -fx-text-fill: #007bff;
+    -fx-border-color: transparent;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}

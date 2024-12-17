@@ -1,5 +1,10 @@
 package com.carballeira.practica1.controller;
 
+import com.carballeira.practica1.model.Usuario;
+import com.carballeira.practica1.utils.AlertUtils;
+import com.carballeira.practica1.utils.Constantes;
+import com.carballeira.practica1.utils.PantallaUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,6 +16,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import static com.carballeira.practica1.utils.AlertUtils.showConfirmationAlert;
 import static com.carballeira.practica1.utils.AlertUtils.showInfoAlert;
@@ -18,19 +24,20 @@ import static com.carballeira.practica1.utils.AlertUtils.showInfoAlert;
 public class MenuController {
 
     private String administrador = "";
-    private int idUsuario = 0;
-    private String email = "";
-    private String telefono = "";
-    private String nombre = "";
+    private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     private final LocalDateTime fechaHoraActual = LocalDateTime.now();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final String fechaFormateada = fechaHoraActual.format(formatter);
 
     @FXML
-    private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, realizarPrestamo, buscarUsuario, editarUsuario, borrarUsuario, botonSalir;
+    private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, realizarPrestamo, editarUsuario, borrarUsuario, botonSalir;
 
     @FXML
     public void initialize() {
+
+        Usuario usuario = new Usuario("admin","admin","admin","abc123.","s");
+        listaUsuarios.add(usuario);
+
         configurarBotonesIniciales();
     }
 
@@ -40,8 +47,25 @@ public class MenuController {
             inicioSesion.setDisable(false);
             cerrarSesion.setDisable(true);
             borrarUsuario.setDisable(true);
-            buscarUsuario.setDisable(true);
             editarUsuario.setDisable(true);
+            realizarPrestamo.setDisable(true);
+            realizarDevolucion.setDisable(true);
+        }
+        else if(administrador.equals("s")) {
+            crearUsuario.setDisable(true);
+            inicioSesion.setDisable(true);
+            cerrarSesion.setDisable(false);
+            borrarUsuario.setDisable(false);
+            editarUsuario.setDisable(false);
+            realizarPrestamo.setDisable(false);
+            realizarDevolucion.setDisable(false);
+        }
+        else if (administrador.equals("n")){
+            crearUsuario.setDisable(false);
+            inicioSesion.setDisable(false);
+            cerrarSesion.setDisable(true);
+            borrarUsuario.setDisable(false);
+            editarUsuario.setDisable(false);
             realizarPrestamo.setDisable(true);
             realizarDevolucion.setDisable(true);
         }
@@ -49,33 +73,26 @@ public class MenuController {
 
     @FXML
     private void inicioSesionAction() {
-        // Lógica para iniciar sesión
-        System.out.println("Iniciar sesión clickeado");
-        // Simular cambio a otra ventana o lógica específica
+
+        try {
+        PantallaUtils pantallaUtils = new PantallaUtils();
+        pantallaUtils.cerrarEstaPantalla(inicioSesion);
+        pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_LOGIN.getDescripcion(), "Iniciar Sesion", 600, 400);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.");
+            alert.showAndWait();
+        }
+
     }
 
     @FXML
     private void crearUsuarioAction() {
         try {
-            // Obtener el escenario actual (ventana del menú)
-            Stage currentStage = (Stage) crearUsuario.getScene().getWindow();
-            // Ocultar la ventana del menú
-            currentStage.hide();
 
-            // Cargar el archivo FXML de la ventana de creación de usuario
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/carballeira/practica1/register-view.fxml"));
-            Scene scene = new Scene(loader.load());
-
-            // Crear un nuevo escenario (ventana de creación de usuario)
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Crear Usuario");
-
-            // Mostrar la ventana de creación de usuario
-            stage.show();
-
-            // Establecer un listener para cerrar la ventana de creación de usuario y mostrar nuevamente la ventana del menú
-            stage.setOnCloseRequest(e -> currentStage.show());
+            PantallaUtils pantallaUtils = new PantallaUtils();
+            pantallaUtils.cerrarEstaPantalla(crearUsuario);
+            pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_REGISTRO.getDescripcion(), "Crear Usuario", 550, 400);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,18 +102,16 @@ public class MenuController {
     }
 
 
+
     @FXML
     private void cerrarSesionAction() {
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION, "¿Estás seguro de que deseas cerrar la sesión actual?", ButtonType.YES, ButtonType.NO);
-        confirmacion.setHeaderText(null);
-        confirmacion.setTitle("Confirmar cierre");
-        confirmacion.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.YES) {
-                administrador = "";
-                configurarBotonesIniciales();
-                showInfoAlert("Sesion cerrada","Sesion cerrada");
-            }
+
+        showConfirmationAlert("Confirmar cierre", "¿Estás seguro de que deseas cerrar la sesión actual?", () -> {
+            administrador = "";
+            configurarBotonesIniciales();
+            showInfoAlert("Sesión cerrada", "Sesión cerrada");
         });
+
     }
 
     @FXML
@@ -109,12 +124,6 @@ public class MenuController {
     private void realizarPrestamoAction() {
         System.out.println("Realizar préstamo clickeado");
         // Lógica para realizar préstamo
-    }
-
-    @FXML
-    private void buscarUsuarioAction() {
-        System.out.println("Buscar usuario clickeado");
-        // Lógica para buscar usuario
     }
 
     @FXML
@@ -131,12 +140,18 @@ public class MenuController {
 
     @FXML
     private void botonSalirAction() {
-        // Usamos AlertUtils para mostrar la alerta de confirmación
+
             showConfirmationAlert("Confirmar salida", "¿Estás seguro de que deseas salir del programa?", () -> {
             System.out.println("Saliendo del programa");
             Stage stage = (Stage) botonSalir.getScene().getWindow();
             stage.close();
         });
+    }
+
+    public void initData(Usuario usuario){
+
+        listaUsuarios.add(usuario);
+
     }
 
 }

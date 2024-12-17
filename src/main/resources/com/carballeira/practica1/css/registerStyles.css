@@ -111,3 +111,10 @@
     -fx-spacing: 15px;
     -fx-padding: 20px;
 }
+#main-title {
+    -fx-font-family: "Copperplate Gothic Light";
+    -fx-font-size: 28px;
+    -fx-text-fill: #333;
+    -fx-alignment: center;
+    -fx-padding: 20px 0;
+}

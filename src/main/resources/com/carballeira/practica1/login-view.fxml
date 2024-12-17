@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane stylesheets="@css/loginStyles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.carballeira.practica1.controller.LoginController">
+
+
+    <!-- Title -->
+    <Label fx:id="menuTitle" layoutX="135.0" layoutY="33.0" styleClass="menu-title" text="INICIAR SESION" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="33.0" />
+
+    <!-- ID Usuario Section -->
+    <VBox alignment="CENTER" spacing="10" AnchorPane.leftAnchor="50" AnchorPane.rightAnchor="50" AnchorPane.topAnchor="70" />
+   <AnchorPane layoutX="105.0" layoutY="113.0" prefHeight="127.0" prefWidth="388.0">
+      <children>
+           <Label fx:id="labelIdUsuario" layoutX="18.0" layoutY="20.0" text="Introduce tu usuario:" />
+           <TextField fx:id="idUsuario" layoutX="17.0" layoutY="45.0" />
+           <Label fx:id="labelPassword" layoutX="230.0" layoutY="21.0" text="Introduce tu contraseña:" />
+           <PasswordField fx:id="contraseña" layoutX="229.0" layoutY="46.0" />
+            <TextField fx:id="contraseñaVisible" layoutX="229.0" layoutY="46.0" visible="false"/>
+           <Button fx:id="mostrarContraseña" layoutX="320.0" layoutY="81.0" onAction="#mostrarContraseñaAction" text="Mostrar" />
+      </children>
+   </AnchorPane>
+
+          <!-- ProgressBar -->
+    <ProgressBar fx:id="jProgressBar1" layoutX="60.0" layoutY="241.0" prefWidth="300" AnchorPane.leftAnchor="60.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="241.0" />
+
+    <!-- Buttons -->
+    <HBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="30" AnchorPane.leftAnchor="50" AnchorPane.rightAnchor="50">
+        <Button fx:id="inicioSesion" onAction="#inicioSesionAction" styleClass="main-button" text="Iniciar Sesion" />
+        <Button fx:id="botonVolver" onAction="#botonVolverAction" styleClass="exit-button" text="Volver" />
+    </HBox>
+</AnchorPane>

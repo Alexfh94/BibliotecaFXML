@@ -1,5 +1,6 @@
 package com.carballeira.practica1.controller;
 
+import com.carballeira.practica1.model.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -60,8 +61,10 @@ public class RegisterController {
         String telefono1 = telefono.getText();
         String contraseña1 = contraseña.getText();
 
-        if (validarCampos(nombre1, email1, telefono1, contraseña1)) {
-            // TODO ABRIR VENTANA DE CAPTCHA
+        Usuario usuario = new Usuario(nombre1,email1,telefono1,contraseña1,"n");
+
+        if (usuario.validarCampos(nombre1, email1, telefono1, contraseña1)) {
+
 
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/carballeira/practica1/captcha-view.fxml"));
@@ -85,27 +88,6 @@ public class RegisterController {
                 alert.showAndWait();
             }
         }
-    }
-
-    private boolean validarCampos(String nombre, String email, String telefono, String contraseña) {
-        //TODO DESCOMENTAR TRAS LAS PRUEBAS
-//        if (nombre.isEmpty()) {
-//            showErrorAlert("Error", "El nombre no puede estar vacío.");
-//            return false;
-//        }
-//        if (!email.contains("@")) {
-//            showErrorAlert("Error", "El formato del email es incorrecto.");
-//            return false;
-//        }
-//        if (!telefono.matches("[1-9]+") || telefono.length() != 9) {
-//            showErrorAlert("Error", "El teléfono debe tener 9 dígitos y solo contener números.");
-//            return false;
-//        }
-//        if (contraseña.isEmpty()) {
-//            showErrorAlert("Error", "La contraseña no puede estar vacía.");
-//            return false;
-//        }
-        return true;
     }
 
     @FXML

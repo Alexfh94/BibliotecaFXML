@@ -1,0 +1,84 @@
+/* General style for the VBox container */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f9f9f9; /* Light gray background */
+    -fx-padding: 30px;
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+}
+
+/* Style for the title label */
+.label {
+    -fx-font-family: "Copperplate Gothic Bold", sans-serif;
+    -fx-font-size: 18px;
+    -fx-text-fill: #333;
+    -fx-padding: 10px 0;
+    -fx-text-alignment: center;
+}
+
+#numeroPanel {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 36px;
+    -fx-text-fill: #007bff; /* Blue color for numbers */
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-padding: 10px;
+}
+
+/* Style for TextField */
+.text-field {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.text-field:focused {
+    -fx-border-color: #007bff; /* Blue border on focus */
+}
+
+/* Buttons general style */
+.button {
+    -fx-pref-width: 120px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+/* 'Listo' button styles */
+#listo {
+    -fx-background-color: #28a745; /* Green background */
+}
+
+#listo:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+/* 'Volver' button styles */
+#botonVolver {
+    -fx-background-color: #dc3545; /* Red background */
+}
+
+#botonVolver:hover {
+    -fx-background-color: #c82333; /* Darker red on hover */
+}
+
+/* HBox alignment and spacing */
+.hbox {
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+}
+
+/* Add spacing and alignment for labels and inputs */
+.vbox {
+    -fx-alignment: center;
+    -fx-spacing: 20px;
+    -fx-padding: 20px;
+}
