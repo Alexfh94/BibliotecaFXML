@@ -1,6 +1,9 @@
 package com.carballeira.practica1.controller;
 
 import com.carballeira.practica1.model.Usuario;
+import com.carballeira.practica1.utils.AlertUtils;
+import com.carballeira.practica1.utils.Constantes;
+import com.carballeira.practica1.utils.PantallaUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,11 +17,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.carballeira.practica1.utils.AlertUtils.*;
 
 public class CaptchaController {
 
@@ -37,7 +44,7 @@ public class CaptchaController {
     private Button botonVolver;
 
     private Random r = new Random();
-    private String s1, s2, s3, s4;
+    private Usuario usuario;
 
 
     private void startRandomNumberThread() {
@@ -78,37 +85,32 @@ public class CaptchaController {
     }
 
     @FXML
-    private void botonVolverActionPerformed(ActionEvent event) {
-        // Aquí puedes manejar la acción de volver
+    private void botonVolverActionPerformed(ActionEvent event) throws IOException {
+        Stage currentStage = (Stage) botonVolver.getScene().getWindow();
+        currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST));
+        PantallaUtils pantallaUtils = new PantallaUtils();
+        Stage stage = new Stage();
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+        showErrorAlert("Se ha cancelado la creación de la cuenta", "Se ha cancelado la creación de la cuenta");
+
     }
 
     private void confirmarCaptcha() throws IOException {
         try {
-        if (numero.getText().equals(String.valueOf(numeroPanel.getText()))) {
-            Usuario usuario = new Usuario(s1, s2, s3, s4, "n");
+            if (numero.getText().equals(String.valueOf(numeroPanel.getText()))) {
+                guardarUsuarioEnArchivo(usuario);
+                PantallaUtils pantallaUtils = new PantallaUtils();
+                Stage stage = new Stage();
+                FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+                MenuController menuController = loader.getController();
+                menuController.initData(usuario);
+                pantallaUtils.cerrarEstaPantalla(listo);
+                showInfoAlert("Cuenta Creada", "Cuenta creada para el usuario: " + usuario.getNombre());
+            } else {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/carballeira/practica1/menu-view.fxml"));
-            Parent root = loader.load();
-            MenuController menuController = loader.getController();
-            menuController.initData(usuario);
+                showErrorAlert("Error", "El número introducido es incorrecto. Inténtelo de nuevo.");
 
-            Stage stage = new Stage();
-
-            Scene scene = new Scene(root, 400, 600);
-
-            stage.setScene(scene);
-
-            stage.setTitle("BIBLIOTECA");
-
-            stage.show();
-
-            Stage currentStage = (Stage) listo.getScene().getWindow();
-            currentStage.hide();
-
-        } else {
-
-
-        }
+            }
         } catch (IOException e) {
             e.printStackTrace(); // Imprimir la traza del error
             Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana de CAPTCHA.");
@@ -116,12 +118,8 @@ public class CaptchaController {
         }
     }
 
-    public void initData(String s1, String s2, String s3, String s4) {
-        // Constructor para recibir los parámetros de la creación de cuenta.
-        this.s1 = s1;
-        this.s2 = s2;
-        this.s3 = s3;
-        this.s4 = s4;
+    public void initData(Usuario usuario) {
+     this.usuario=usuario;
     }
 
     @FXML
@@ -139,5 +137,25 @@ public class CaptchaController {
             }
         });
     }
+
+    private void guardarUsuarioEnArchivo(Usuario usuario) {
+        FileWriter fileWriter = null;
+
+        try {
+            // Abrir el archivo en modo de adición (si no existe, lo crea)
+            fileWriter = new FileWriter("Usuarios.txt", true);
+
+            // Guardamos los datos del usuario en el archivo (nombre y contraseña)
+            fileWriter.write(usuario.getNombre() + "," + usuario.getEmail() + "," + usuario.getTelefono()+ "," + usuario.getContraseña()+ ","+ usuario.getAdmin()+"\n");
+
+            // Cerramos el FileWriter
+            fileWriter.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert("Error", "Ocurrió un error al guardar el usuario.");
+        }
+    }
+
 
 }

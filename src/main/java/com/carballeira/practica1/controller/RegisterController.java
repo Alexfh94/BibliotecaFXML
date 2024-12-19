@@ -1,6 +1,8 @@
 package com.carballeira.practica1.controller;
 
 import com.carballeira.practica1.model.Usuario;
+import com.carballeira.practica1.utils.Constantes;
+import com.carballeira.practica1.utils.PantallaUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,8 +15,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static com.carballeira.practica1.utils.AlertUtils.showErrorAlert;
+import static com.carballeira.practica1.utils.AlertUtils.showInfoAlert;
 
 public class RegisterController {
 
@@ -32,6 +36,8 @@ public class RegisterController {
 
 
     private int contador = 0;
+    private int contador2=0;
+    private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
 
     @FXML
     private void initialize() {
@@ -51,7 +57,13 @@ public class RegisterController {
             }
         });
 
-        botonVolver.setOnAction(event -> botonVolverAction());
+        botonVolver.setOnAction(event -> {
+            try {
+                botonVolverAction();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @FXML
@@ -60,32 +72,39 @@ public class RegisterController {
         String email1 = email.getText();
         String telefono1 = telefono.getText();
         String contraseña1 = contraseña.getText();
-
+        contador2 = 0;
         Usuario usuario = new Usuario(nombre1,email1,telefono1,contraseña1,"n");
+
+        //comprobar si existe el usuario previamente
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+
+            if (listaUsuarios.get(i).getNombre().equals(usuario.getNombre())) {
+                contador2++;
+            }
+        }
 
         if (usuario.validarCampos(nombre1, email1, telefono1, contraseña1)) {
 
 
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/carballeira/practica1/captcha-view.fxml"));
-                Parent root = loader.load();  // Cargar la vista FXML
-                CaptchaController captchaController = loader.getController();  // Obtener el controlador automáticamente
-                captchaController.initData(nombre1, email1, telefono1, contraseña1);
+            if (contador2 > 0) {
+                showErrorAlert("Error", "El usuario que intenta crear ya existe");
+                contador2 = 0;
+            } else {
 
-                // Mostrar la nueva ventana (captcha)
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Verificación CAPTCHA");
-                stage.show();
 
-                // Cerrar la ventana actual de registro
-                Stage currentStage = (Stage) crearUsuario.getScene().getWindow();
-                currentStage.hide();
+                try {
+                    PantallaUtils pantallaUtils = new PantallaUtils();
+                    Stage stage = new Stage();
+                    FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_CAPTCHA.getDescripcion(), "CAPTCHA", 400, 600);
+                    CaptchaController captchaController = loader.getController();
+                    captchaController.initData(usuario);
+                    pantallaUtils.cerrarEstaPantalla(botonVolver);
 
-            } catch (IOException e) {
-                e.printStackTrace(); // Imprimir la traza del error
-                Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana de CAPTCHA.");
-                alert.showAndWait();
+                } catch (IOException e) {
+                    e.printStackTrace(); // Imprimir la traza del error
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana de CAPTCHA.");
+                    alert.showAndWait();
+                }
             }
         }
     }
@@ -110,13 +129,21 @@ public class RegisterController {
     }
 
     @FXML
-    private void botonVolverAction() {
-        // Disparar el evento de cierre como si el usuario hubiera presionado la "X"
+    private void botonVolverAction() throws IOException {
+
         Stage currentStage = (Stage) botonVolver.getScene().getWindow();
         currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST));
+        PantallaUtils pantallaUtils = new PantallaUtils();
+        Stage stage = new Stage();
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
     }
 
     private void actualizarEstadoBoton() {
         mostrarContraseña.setDisable(contraseña.getText().isEmpty());
+    }
+
+    public void initData(ArrayList<Usuario> listaUsuarios){
+
+        this.listaUsuarios = listaUsuarios;
     }
 }

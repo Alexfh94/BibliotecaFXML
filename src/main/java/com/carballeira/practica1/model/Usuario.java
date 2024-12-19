@@ -1,5 +1,7 @@
 package com.carballeira.practica1.model;
 
+import java.util.ArrayList;
+
 import static com.carballeira.practica1.utils.AlertUtils.showErrorAlert;
 
 public class Usuario {
@@ -59,7 +61,10 @@ public class Usuario {
     }
 
     public boolean validarCampos(String nombre, String email, String telefono, String contraseña) {
-        //TODO DESCOMENTAR TRAS LAS PRUEBAS
+        if(nombre.contains(",")|| email.contains(",") ||telefono.contains(",") || contraseña.contains(",")){
+            showErrorAlert("Error", "Ningún campo puede contener comas");
+            return false;
+        }
         if (nombre.isEmpty()) {
             showErrorAlert("Error", "El nombre no puede estar vacío.");
             return false;

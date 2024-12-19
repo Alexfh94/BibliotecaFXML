@@ -13,21 +13,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import static com.carballeira.practica1.utils.AlertUtils.showConfirmationAlert;
-import static com.carballeira.practica1.utils.AlertUtils.showInfoAlert;
+import static com.carballeira.practica1.utils.AlertUtils.*;
 
 public class MenuController {
 
     private String administrador = "";
     private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-    private final LocalDateTime fechaHoraActual = LocalDateTime.now();
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private final String fechaFormateada = fechaHoraActual.format(formatter);
+    private Usuario currentUser;
 
     @FXML
     private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, realizarPrestamo, editarUsuario, borrarUsuario, botonSalir;
@@ -35,9 +34,7 @@ public class MenuController {
     @FXML
     public void initialize() {
 
-        Usuario usuario = new Usuario("admin","admin","admin","abc123.","s");
-        listaUsuarios.add(usuario);
-
+        cargarUsuariosDesdeArchivo();
         configurarBotonesIniciales();
     }
 
@@ -57,17 +54,17 @@ public class MenuController {
             cerrarSesion.setDisable(false);
             borrarUsuario.setDisable(false);
             editarUsuario.setDisable(false);
-            realizarPrestamo.setDisable(false);
-            realizarDevolucion.setDisable(false);
-        }
-        else if (administrador.equals("n")){
-            crearUsuario.setDisable(false);
-            inicioSesion.setDisable(false);
-            cerrarSesion.setDisable(true);
-            borrarUsuario.setDisable(false);
-            editarUsuario.setDisable(false);
             realizarPrestamo.setDisable(true);
             realizarDevolucion.setDisable(true);
+        }
+        else if (administrador.equals("n")){
+            crearUsuario.setDisable(true);
+            inicioSesion.setDisable(true);
+            cerrarSesion.setDisable(false);
+            borrarUsuario.setDisable(true);
+            editarUsuario.setDisable(true);
+            realizarPrestamo.setDisable(false);
+            realizarDevolucion.setDisable(false);
         }
     }
 
@@ -77,7 +74,11 @@ public class MenuController {
         try {
         PantallaUtils pantallaUtils = new PantallaUtils();
         pantallaUtils.cerrarEstaPantalla(inicioSesion);
-        pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_LOGIN.getDescripcion(), "Iniciar Sesion", 600, 400);
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_LOGIN.getDescripcion(), "Iniciar Sesion", 600, 400);
+        LoginController loginController = loader.getController();
+        loginController.initData(listaUsuarios);
+
+
         } catch (IOException e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.");
@@ -90,9 +91,13 @@ public class MenuController {
     private void crearUsuarioAction() {
         try {
 
+
             PantallaUtils pantallaUtils = new PantallaUtils();
             pantallaUtils.cerrarEstaPantalla(crearUsuario);
-            pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_REGISTRO.getDescripcion(), "Crear Usuario", 550, 400);
+            Stage stage = new Stage();
+            FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_REGISTRO.getDescripcion(), "REGISTRO",  550, 400);
+            RegisterController registerController = loader.getController();
+            registerController.initData(listaUsuarios);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,8 +105,6 @@ public class MenuController {
             alert.showAndWait();
         }
     }
-
-
 
     @FXML
     private void cerrarSesionAction() {
@@ -153,5 +156,45 @@ public class MenuController {
         listaUsuarios.add(usuario);
 
     }
+
+    public void initSesion(Usuario usuario){
+        currentUser = usuario;
+        administrador= usuario.getAdmin();
+        System.out.println(administrador);
+        configurarBotonesIniciales();
+    }
+
+
+    private void cargarUsuariosDesdeArchivo() {
+        BufferedReader reader = null;
+        try {
+            // Abrir el archivo Usuarios.txt para leer los datos
+            reader = new BufferedReader(new FileReader("Usuarios.txt"));
+            String line;
+
+            // Leer cada línea del archivo
+            while ((line = reader.readLine()) != null) {
+
+                String[] partes = line.split(",");
+                if (partes.length == 5) {
+                    Usuario usuario = new Usuario(partes[0], partes[1], partes[2], partes[3], partes[4]);
+                    listaUsuarios.add(usuario);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); // Imprimir traza del error si ocurre una excepción
+            showErrorAlert("Error", "No se pudo cargar el archivo de usuarios.");
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close(); // Cerrar el BufferedReader después de usarlo
+                }
+            } catch (IOException e) {
+                e.printStackTrace(); // Imprimir traza del error si ocurre una excepción al cerrar el archivo
+            }
+        }
+    }
+
+
 
 }
