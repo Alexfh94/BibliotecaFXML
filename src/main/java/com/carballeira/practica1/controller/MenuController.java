@@ -43,7 +43,6 @@ public class MenuController {
             crearUsuario.setDisable(false);
             inicioSesion.setDisable(false);
             cerrarSesion.setDisable(true);
-            borrarUsuario.setDisable(true);
             editarUsuario.setDisable(true);
             realizarPrestamo.setDisable(true);
             realizarDevolucion.setDisable(true);
@@ -52,7 +51,6 @@ public class MenuController {
             crearUsuario.setDisable(true);
             inicioSesion.setDisable(true);
             cerrarSesion.setDisable(false);
-            borrarUsuario.setDisable(false);
             editarUsuario.setDisable(false);
             realizarPrestamo.setDisable(true);
             realizarDevolucion.setDisable(true);
@@ -61,7 +59,6 @@ public class MenuController {
             crearUsuario.setDisable(true);
             inicioSesion.setDisable(true);
             cerrarSesion.setDisable(false);
-            borrarUsuario.setDisable(true);
             editarUsuario.setDisable(true);
             realizarPrestamo.setDisable(false);
             realizarDevolucion.setDisable(false);
@@ -135,11 +132,6 @@ public class MenuController {
         // Lógica para modificar usuario
     }
 
-    @FXML
-    private void borrarUsuarioAction() {
-        System.out.println("Borrar usuario clickeado");
-        // Lógica para borrar usuario
-    }
 
     @FXML
     private void botonSalirAction() {
