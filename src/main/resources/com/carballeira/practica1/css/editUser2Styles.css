@@ -1,0 +1,104 @@
+/* General style for the window */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f5f5f5; /* Light gray background */
+    -fx-padding: 20px;
+    -fx-pref-width: 600px;
+    -fx-pref-height: 400px;
+}
+
+/* Title style */
+#main-title {
+    -fx-font-family: "Copperplate Gothic Light";
+    -fx-font-size: 28px;
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-padding: 20px 0;
+}
+
+/* Label styles */
+.label {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-padding: 10px 0;
+}
+
+/* TextField styles */
+.text-field {
+    -fx-pref-width: 300px;
+    -fx-pref-height: 35px;
+    -fx-font-size: 14px;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Button styles */
+.button {
+    -fx-pref-width: 120px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-color: #007bff; /* Blue background */
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 10px;
+    -fx-font-weight: bold;
+}
+
+/* Hover effect for buttons */
+.button:hover {
+    -fx-background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* 'Volver' button specific styles */
+#botonVolver {
+    -fx-background-color: #dc3545; /* Red background */
+}
+
+#botonVolver:hover {
+    -fx-background-color: #c82333; /* Darker red on hover */
+}
+
+/* Focus effect on text fields */
+.text-field:focused {
+    -fx-border-color: #007bff; /* Blue border on focus */
+}
+
+/* CheckBox styles */
+.check-box {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-padding: 5px 0;
+}
+
+/* Optional: Align elements and add spacing between form fields */
+.form-container {
+    -fx-alignment: center;
+    -fx-spacing: 15px;
+    -fx-padding: 20px;
+}
+
+/* Specific styling for the layout */
+#nombre, #email, #telefono {
+    -fx-layout-x: 100.0;
+    -fx-layout-y: 115.0;
+    -fx-pref-width: 300px;
+    -fx-pref-height: 35px;
+}
+
+/* 'Admin?' label */
+#adminCB {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-padding: 10px 0;
+}
+
+/* General layout adjustments */
+.anchor-pane {
+    -fx-spacing: 15px;
+    -fx-alignment: center;
+}

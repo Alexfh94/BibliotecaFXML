@@ -1,0 +1,76 @@
+/* General style for the window */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f4f4f4;
+    -fx-padding: 10;
+    -fx-pref-width: 600px;
+    -fx-pref-height: 400px;
+}
+
+/* Title style */
+.top Label {
+    -fx-font-family: "Copperplate Gothic Bold";
+    -fx-font-size: 20px;
+    -fx-text-fill: #333;
+    -fx-alignment: center;
+    -fx-padding: 20px 0;
+}
+
+/* General TableView style */
+#tablaUsuarios {
+    -fx-pref-width: 500px;
+    -fx-pref-height: 300px;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-background-color: #ffffff;
+}
+
+/* TableColumn header style */
+#tablaUsuarios .column-header {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+}
+
+/* General button style */
+#botonEditar, #botonVolver {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/* Hover effect for buttons */
+#botonEditar:hover, #botonVolver:hover {
+    -fx-background-color: #0056b3;
+}
+
+/* Specific style for "Volver" button */
+#botonVolver {
+    -fx-background-color: #dc3545;
+    -fx-font-weight: bold;
+}
+
+#botonVolver:hover {
+    -fx-background-color: #a71d2a;
+}
+
+/* Bottom section styling */
+.bottom {
+    -fx-padding: 20px;
+}
+
+/* VBox in the center */
+.center VBox {
+    -fx-alignment: center;
+    -fx-spacing: 15px;
+}
+
+/* TableView cell styling */
+#tablaUsuarios .cell {
+    -fx-font-size: 13px;
+    -fx-text-fill: #333;
+}

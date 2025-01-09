@@ -24,7 +24,7 @@ import static com.carballeira.practica1.utils.AlertUtils.*;
 
 public class MenuController {
 
-    private String administrador = "";
+    private String administrador = "s";
     private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     private Usuario currentUser;
 
@@ -128,8 +128,19 @@ public class MenuController {
 
     @FXML
     private void editarUsuarioAction() {
-        System.out.println("Editar usuario clickeado");
-        // Lógica para modificar usuario
+        try {
+            PantallaUtils pantallaUtils = new PantallaUtils();
+            pantallaUtils.cerrarEstaPantalla(inicioSesion);
+            FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
+            EditUserController editUserController = loader.getController();
+            editUserController.initData(listaUsuarios);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.");
+            alert.showAndWait();
+        }
     }
 
 

@@ -10,7 +10,8 @@ public enum Constantes {
     PAGINA_CAPTCHA("/com/carballeira/practica1/captcha-view.fxml"),
     PAGINA_DEVOLUCION("/com/carballeira/practica1/devolucion-view.fxml"),
     PAGINA_PRESTAMO("/com/carballeira/practica1/prestamo-view.fxml"),
-    PAGINA_MODIFICAR("/com/carballeira/practica1/modificar-view.fxml"),
+    PAGINA_MODIFICAR("/com/carballeira/practica1/edit-user-view.fxml"),
+    PAGINA_MODIFICAR2("/com/carballeira/practica1/edit-user-view2.fxml"),
     PAGINA_BORRAR("/com/carballeira/practica1/borrar-view.fxml");
 
 

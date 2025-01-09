@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" stylesheets="@css/editUserStyles.css" fx:controller="com.carballeira.practica1.controller.EditUserController">
+
+    <!-- Top section -->
+    <top>
+        <Label text="MODIFICAR USUARIO" style="-fx-font-family: 'Copperplate Gothic Bold'; -fx-font-size: 18;" />
+    </top>
+
+    <!-- Center section -->
+    <center>
+        <VBox spacing="10" alignment="CENTER">
+            <TableView fx:id="tablaUsuarios" prefWidth="400" prefHeight="600">
+                <columns>
+                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="145" resizable="false" />
+                    <TableColumn fx:id="colEmail" text="Email" prefWidth="145" resizable="false" />
+                    <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="145" resizable="false" />
+                    <TableColumn fx:id="colAdmin" text="Admin" prefWidth="145" resizable="false" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+    <!-- Bottom section -->
+    <bottom>
+        <HBox spacing="20" alignment="CENTER">
+            <Button text="Modificar Usuario" fx:id="botonEditar" onAction="#editActionPerformed" />
+            <Button text="Volver" fx:id="botonVolver" onAction="#VolverActionPerformed" />
+        </HBox>
+    </bottom>
+
+</BorderPane>
