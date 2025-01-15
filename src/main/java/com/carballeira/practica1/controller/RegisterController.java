@@ -5,20 +5,14 @@ import com.carballeira.practica1.utils.Constantes;
 import com.carballeira.practica1.utils.PantallaUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
 import java.io.IOException;
 import java.util.ArrayList;
-
 import static com.carballeira.practica1.utils.AlertUtils.showErrorAlert;
-import static com.carballeira.practica1.utils.AlertUtils.showInfoAlert;
 
 public class RegisterController {
 
