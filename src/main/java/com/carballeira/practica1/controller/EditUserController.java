@@ -15,8 +15,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.WindowEvent;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+
+import static com.carballeira.practica1.utils.AlertUtils.showInfoAlert;
 
 
 public class EditUserController {
@@ -91,7 +94,7 @@ public class EditUserController {
                 pantallaUtils.cerrarEstaPantalla(botonVolver);
                 FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR2.getDescripcion(), "Editar Usuario Seleccionado", 600, 400);
                 EditUser2Controller editUser2Controller = loader.getController();
-                editUser2Controller.initData(selectedUser);
+                editUser2Controller.initData(selectedUser, arrayUsuarios);
 
             } catch (IOException e) {
                 AlertUtils.showErrorAlert("Error", "No se pudo abrir la ventana de modificación: " + e.getMessage());
@@ -115,4 +118,50 @@ public class EditUserController {
 
     }
 
+    public void deleteActionPerformed(ActionEvent actionEvent) {
+        Usuario selectedUser = tablaUsuarios.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            AlertUtils.showErrorAlert("Error", "Por favor, selecciona un usuario para borrar.");
+            return;
+        }
+        AlertUtils.showConfirmationAlert("Confirmar borrado", "¿Estás seguro de que deseas eliminar el usuario: " + nombreUsuario, () -> {
+            String emailPrevio = selectedUser.getEmail();
+            String archivoUsuarios = "Usuarios.txt";
+            File archivo = new File(archivoUsuarios);
+            List<String> lineas = new ArrayList<>();
+
+
+            try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+                String linea;
+                while ((linea = reader.readLine()) != null) {
+                    // Separar la línea por "," y verificar si no corresponde al usuario seleccionado
+                    String[] datosUsuario = linea.split(",");
+                    if (!datosUsuario[1].equals(emailPrevio)) { // Suponemos que el email es único
+                        lineas.add(linea); // Guardar solo las líneas que no corresponden al usuario
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                AlertUtils.showErrorAlert("Error", "Ocurrió un error al leer el archivo.");
+                return;
+            }
+
+            // Escribir de nuevo el archivo con las líneas restantes
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
+                for (String linea : lineas) {
+                    writer.write(linea);
+                    writer.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                AlertUtils.showErrorAlert("Error", "Ocurrió un error al escribir el archivo.");
+                return;
+            }
+            arrayUsuarios.remove(selectedUser);
+            mostrarUsuarios();
+            showInfoAlert("Usuario eliminado", "Usuario eliminado correctamente");
+
+        });
+        }
 }
+

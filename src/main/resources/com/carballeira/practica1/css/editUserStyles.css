@@ -74,3 +74,19 @@
     -fx-font-size: 13px;
     -fx-text-fill: #333;
 }
+
+#botonBorrar {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-color: #ffc107; /* Amarillo */
+    -fx-text-fill: #333; /* Texto oscuro */
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-font-weight: bold;
+}
+
+/* Hover effect for "Borrar" button */
+#botonBorrar:hover {
+    -fx-background-color: #e0a800; /* Un tono más oscuro de amarillo */
+}

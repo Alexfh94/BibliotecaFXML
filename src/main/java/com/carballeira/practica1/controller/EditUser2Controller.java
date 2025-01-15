@@ -5,6 +5,7 @@ import com.carballeira.practica1.utils.Constantes;
 import com.carballeira.practica1.utils.PantallaUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -15,9 +16,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.carballeira.practica1.utils.AlertUtils.showInfoAlert;
+
 public class EditUser2Controller {
 
     private Usuario usuario;
+    private ArrayList<Usuario> listaUsuarios;
 
     // Campos de la vista FXML
     @FXML
@@ -50,22 +54,22 @@ public class EditUser2Controller {
     }
 
     // Método para inicializar el controlador con un objeto Usuario
-    public void initData(Usuario usuario) {
+    public void initData(Usuario usuario,ArrayList<Usuario> listaUsuarios) {
         this.usuario = usuario;
-
+        this.listaUsuarios=listaUsuarios;
         initialize();
     }
 
     // Lógica para el botón "Editar Usuario"
-    public void editarUsuario(ActionEvent actionEvent) {
-        // Actualizar el objeto usuario con los nuevos datos desde la vista
+    public void editarUsuario(ActionEvent actionEvent) throws IOException {
+        String emailPrevio = usuario.getEmail();
         usuario.setNombre(nombre.getText());
         usuario.setEmail(email.getText());
         usuario.setTelefono(telefono.getText());
-        usuario.setAdmin(adminCB.isSelected() ? "s" : "m");
+        usuario.setAdmin(adminCB.isSelected() ? "s" : "n");
 
         // Ruta del archivo donde están los datos de los usuarios
-        String archivoUsuarios = "Usuarios.txt"; // Actualiza con la ruta correcta
+        String archivoUsuarios = "Usuarios.txt";
 
         // Leer el archivo y almacenar todas las líneas
         File archivo = new File(archivoUsuarios);
@@ -76,16 +80,18 @@ public class EditUser2Controller {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 // Separar la línea por ";"
-                String[] datosUsuario = linea.split(";");
+                String[] datosUsuario = linea.split(",");
+
                 // Verificar si la línea corresponde al usuario que estamos editando
-                if (datosUsuario[1].equals(usuario.getEmail())) { // Suponemos que el email es único
+                if (datosUsuario[1].equals(emailPrevio)) { // Suponemos que el email es único
                     // Actualizar los datos de la línea con los nuevos datos
                     datosUsuario[0] = usuario.getNombre();
+                    datosUsuario[1] = usuario.getEmail();
                     datosUsuario[2] = usuario.getTelefono();
                     datosUsuario[3] = usuario.getAdmin();
 
                     // Reconstruir la línea con los nuevos datos
-                    String nuevaLinea = String.join(";", datosUsuario);
+                    String nuevaLinea = String.join(",", datosUsuario);
                     lineas.add(nuevaLinea);
                     usuarioEncontrado = true;
                 } else {
@@ -109,18 +115,24 @@ public class EditUser2Controller {
                 writer.write(linea);
                 writer.newLine();
             }
-            System.out.println("Datos del usuario actualizados correctamente.");
+            PantallaUtils pantallaUtils = new PantallaUtils();
+            pantallaUtils.cerrarEstaPantalla(botonVolver);
+            FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
+            EditUserController editUserController = loader.getController();
+            editUserController.initData(listaUsuarios);
+            showInfoAlert("Datos modificados", "Usuario actualizado correctamente");
         } catch (IOException e) {
             e.printStackTrace();
+
         }
     }
 
     // Lógica para el botón "Volver"
     public void botonVolverActionPerformed(ActionEvent actionEvent) throws IOException {
-        Stage currentStage = (Stage) botonVolver.getScene().getWindow();
-        currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST));
         PantallaUtils pantallaUtils = new PantallaUtils();
-        Stage stage = new Stage();
-        pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+        pantallaUtils.cerrarEstaPantalla(botonVolver);
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
+        EditUserController editUserController = loader.getController();
+        editUserController.initData(listaUsuarios);
     }
 }
