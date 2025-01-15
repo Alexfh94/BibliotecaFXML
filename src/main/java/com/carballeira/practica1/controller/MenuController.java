@@ -17,7 +17,7 @@ import static com.carballeira.practica1.utils.AlertUtils.*;
 
 public class MenuController {
 
-    private String administrador = "s";
+    private String administrador = "n";
     private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     private Usuario currentUser;
 
