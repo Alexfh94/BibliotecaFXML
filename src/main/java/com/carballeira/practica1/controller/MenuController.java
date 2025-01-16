@@ -1,5 +1,6 @@
 package com.carballeira.practica1.controller;
 
+import com.carballeira.practica1.model.Libro;
 import com.carballeira.practica1.model.Usuario;
 import com.carballeira.practica1.utils.Constantes;
 import com.carballeira.practica1.utils.PantallaUtils;
@@ -17,17 +18,19 @@ import static com.carballeira.practica1.utils.AlertUtils.*;
 
 public class MenuController {
 
-    private String administrador = "n";
+    private String administrador = "";
     private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+    private ArrayList<Libro> listaLibros = new ArrayList<>();
     private Usuario currentUser;
 
     @FXML
-    private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, realizarPrestamo, editarUsuario, borrarUsuario, botonSalir;
+    private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, editarUsuario,botonSalir;
 
     @FXML
     public void initialize() {
 
         cargarUsuariosDesdeArchivo();
+        cargarLibrosDesdeArchivo();
         configurarBotonesIniciales();
     }
 
@@ -37,7 +40,6 @@ public class MenuController {
             inicioSesion.setDisable(false);
             cerrarSesion.setDisable(true);
             editarUsuario.setDisable(true);
-            realizarPrestamo.setDisable(true);
             realizarDevolucion.setDisable(true);
         }
         else if(administrador.equals("s")) {
@@ -45,7 +47,6 @@ public class MenuController {
             inicioSesion.setDisable(true);
             cerrarSesion.setDisable(false);
             editarUsuario.setDisable(false);
-            realizarPrestamo.setDisable(true);
             realizarDevolucion.setDisable(true);
         }
         else if (administrador.equals("n")){
@@ -53,7 +54,6 @@ public class MenuController {
             inicioSesion.setDisable(true);
             cerrarSesion.setDisable(false);
             editarUsuario.setDisable(true);
-            realizarPrestamo.setDisable(false);
             realizarDevolucion.setDisable(false);
         }
     }
@@ -108,15 +108,13 @@ public class MenuController {
     }
 
     @FXML
-    private void realizarDevolucionAction() {
-        System.out.println("Realizar devolución clickeado");
-        // Lógica para realizar devolución
-    }
+    private void realizarDevolucionAction() throws IOException {
+        PantallaUtils pantallaUtils = new PantallaUtils();
+        pantallaUtils.cerrarEstaPantalla(inicioSesion);
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_PRESTAMO.getDescripcion(), "Realizar prestamos y devoluciones", 1200, 600);
+        PrestamoController prestamoController = loader.getController();
+        prestamoController.initData(currentUser, listaLibros);
 
-    @FXML
-    private void realizarPrestamoAction() {
-        System.out.println("Realizar préstamo clickeado");
-        // Lógica para realizar préstamo
     }
 
     @FXML
@@ -126,7 +124,7 @@ public class MenuController {
             pantallaUtils.cerrarEstaPantalla(inicioSesion);
             FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
             EditUserController editUserController = loader.getController();
-            editUserController.initData(listaUsuarios);
+            editUserController.initData(listaUsuarios, currentUser);
 
 
         } catch (IOException e) {
@@ -156,7 +154,6 @@ public class MenuController {
     public void initSesion(Usuario usuario){
         currentUser = usuario;
         administrador= usuario.getAdmin();
-        System.out.println(administrador);
         configurarBotonesIniciales();
     }
 
@@ -191,6 +188,43 @@ public class MenuController {
         }
     }
 
+    private void cargarLibrosDesdeArchivo() {
+        BufferedReader reader = null;
+        try {
+            // Abrir el archivo Usuarios.txt para leer los datos
+            reader = new BufferedReader(new FileReader("Libros.txt"));
+            String line;
+
+            // Leer cada línea del archivo
+            while ((line = reader.readLine()) != null) {
+
+                String[] partes = line.split(",");
+
+                if (partes.length == 4) {
+                    Boolean disponible = partes[3].equals("true") ? true : false;
+                    Libro libro = new Libro(partes[0], partes[1], partes[2], disponible);
+                    listaLibros.add(libro);
+                }
+                if(partes.length == 6){
+
+                    Boolean disponible = partes[3].equals("true") ? true : false;
+                    Libro libro = new Libro(partes[0], partes[1], partes[2], disponible, partes[4],partes[5]);
+                    listaLibros.add(libro);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); // Imprimir traza del error si ocurre una excepción
+            showErrorAlert("Error", "No se pudo cargar el archivo de usuarios.");
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close(); // Cerrar el BufferedReader después de usarlo
+                }
+            } catch (IOException e) {
+                e.printStackTrace(); // Imprimir traza del error si ocurre una excepción al cerrar el archivo
+            }
+        }
+    }
 
 
 }

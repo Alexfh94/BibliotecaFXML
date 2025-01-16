@@ -20,6 +20,7 @@ public class EditUser2Controller {
 
     private Usuario usuario;
     private ArrayList<Usuario> listaUsuarios;
+    private Usuario currentUser;
 
     // Campos de la vista FXML
     @FXML
@@ -52,9 +53,10 @@ public class EditUser2Controller {
     }
 
     // Método para inicializar el controlador con un objeto Usuario
-    public void initData(Usuario usuario,ArrayList<Usuario> listaUsuarios) {
+    public void initData(Usuario usuario,ArrayList<Usuario> listaUsuarios,  Usuario currentUser) {
         this.usuario = usuario;
         this.listaUsuarios=listaUsuarios;
+        this.currentUser = currentUser;
         initialize();
     }
 
@@ -117,7 +119,7 @@ public class EditUser2Controller {
             pantallaUtils.cerrarEstaPantalla(botonVolver);
             FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
             EditUserController editUserController = loader.getController();
-            editUserController.initData(listaUsuarios);
+            editUserController.initData(listaUsuarios, currentUser);
             showInfoAlert("Datos modificados", "Usuario actualizado correctamente");
         } catch (IOException e) {
             e.printStackTrace();
@@ -131,6 +133,6 @@ public class EditUser2Controller {
         pantallaUtils.cerrarEstaPantalla(botonVolver);
         FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
         EditUserController editUserController = loader.getController();
-        editUserController.initData(listaUsuarios);
+        editUserController.initData(listaUsuarios, currentUser);
     }
 }

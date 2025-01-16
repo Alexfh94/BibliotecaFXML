@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@css/prestamoStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carballeira.practica1.controller.PrestamoController">
+
+    <!-- Top section -->
+    <top>
+        <Label style="-fx-font-family: 'Copperplate Gothic Bold'; -fx-font-size: 20; -fx-alignment: center;" text="GESTIÓN DE PRÉSTAMOS Y DEVOLUCIONES" />
+    </top>
+
+    <!-- Center section -->
+    <center>
+        <HBox alignment="CENTER" spacing="50" style="-fx-padding: 20;">
+            <!-- Left section: Libros Disponibles -->
+            <VBox alignment="CENTER" spacing="10">
+                <Label style="-fx-font-family: 'Arial'; -fx-font-size: 16; -fx-font-weight: bold;" text="Libros en la Biblioteca" />
+                <TableView fx:id="tablaDisponibles" prefHeight="400" prefWidth="400">
+                    <columns>
+                        <TableColumn fx:id="colTituloDisponible" text="Título" prefWidth="100" />
+                        <TableColumn fx:id="colAutorDisponible" text="Autor" prefWidth="100" />
+                        <TableColumn fx:id="colAñoDisponible" text="Año Publicación" prefWidth="100" />
+                        <TableColumn fx:id="colDisponible" text="Disponible" prefWidth="100" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Right section: Libros Reservados -->
+            <VBox alignment="CENTER" spacing="10">
+                <Label style="-fx-font-family: 'Arial'; -fx-font-size: 16; -fx-font-weight: bold;" text="Libros Reservados por el usuario actual" />
+                <TableView fx:id="tablaReservados" prefHeight="400" prefWidth="400">
+                    <columns>
+                        <TableColumn fx:id="colTituloReservado" text="Título" prefWidth="100" />
+                        <TableColumn fx:id="colAutorReservado" text="Autor" prefWidth="100" />
+                        <TableColumn fx:id="colAñoReservado" text="Año Publicación" prefWidth="100" />
+                        <TableColumn fx:id="colFechaReservado" text="Fecha Reserva" prefWidth="100" />
+                    </columns>
+                </TableView>
+            </VBox>
+        </HBox>
+    </center>
+
+    <!-- Bottom section -->
+    <bottom>
+        <HBox alignment="CENTER" spacing="20" style="-fx-padding: 10;">
+            <Button fx:id="botonReservar" onAction="#lendActionPerformed" text="Reservar Libro" disable="true" />
+            <Button fx:id="botonDevolver" onAction="#returnActionPerformed" text="Devolver Libro" disable="true" />
+            <Button fx:id="botonVolver" onAction="#volverActionPerformed" text="Volver" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

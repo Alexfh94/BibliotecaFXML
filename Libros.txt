@@ -1,0 +1,20 @@
+El Quijote,Miguel de Cervantes,1605,true
+Cien Años de Soledad,Gabriel García Márquez,1967,true
+1984,George Orwell,1949,true
+Matar a un Ruiseñor,Harper Lee,1960,false,16/01/2025,usuario@gmail.com
+La Odisea,Homero,-800,true
+Don Juan Tenorio,José Zorrilla,1844,false,16/01/2025,usuario@gmail.com
+Orgullo y Prejuicio,Jane Austen,1813,false,16/01/2025,usuario@gmail.com
+Crimen y Castigo,Fiódor Dostoyevski,1866,true
+El Principito,Antoine de Saint-Exupéry,1943,true
+La Metamorfosis,Franz Kafka,1915,true
+El Gran Gatsby,F. Scott Fitzgerald,1925,true
+Cumbres Borrascosas,Emily Brontë,1847,true
+En busca del tiempo perdido,Marcel Proust,1913,true
+Fahrenheit 451,Ray Bradbury,1953,true
+El retrato de Dorian Gray,Oscar Wilde,1890,true
+El Amor en los Tiempos del Cólera,Gabriel García Márquez,1985,true
+Ulises,James Joyce,1922,true
+La Sombra del Viento,Carlos Ruiz Zafón,2001,true
+El Código Da Vinci,Dan Brown,2003,true
+El Alquimista,Paulo Coelho,1988,true

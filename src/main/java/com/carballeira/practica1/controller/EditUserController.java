@@ -47,6 +47,7 @@ public class EditUserController {
     private String telefonoUsuario = "";
     private String admin = "";
     private ArrayList<Usuario> arrayUsuarios;
+    private Usuario currentUser;
 
 
     @FXML
@@ -55,7 +56,6 @@ public class EditUserController {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
         colAdmin.setCellValueFactory(new PropertyValueFactory<>("admin"));
-
         tablaUsuarios.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
@@ -92,7 +92,7 @@ public class EditUserController {
                 pantallaUtils.cerrarEstaPantalla(botonVolver);
                 FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR2.getDescripcion(), "Editar Usuario Seleccionado", 600, 400);
                 EditUser2Controller editUser2Controller = loader.getController();
-                editUser2Controller.initData(selectedUser, arrayUsuarios);
+                editUser2Controller.initData(selectedUser, arrayUsuarios, currentUser);
 
             } catch (IOException e) {
                 AlertUtils.showErrorAlert("Error", "No se pudo abrir la ventana de modificación: " + e.getMessage());
@@ -106,12 +106,15 @@ public class EditUserController {
         currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST));
         PantallaUtils pantallaUtils = new PantallaUtils();
         Stage stage = new Stage();
-        pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+        MenuController menuController = loader.getController();
+        menuController.initSesion(currentUser);
     }
 
 
-    public void initData(ArrayList<Usuario> listaUsuarios) {
+    public void initData(ArrayList<Usuario> listaUsuarios, Usuario usuario) {
         this.arrayUsuarios = listaUsuarios;
+        this.currentUser = usuario;
         mostrarUsuarios(); // Actualizar la lista una vez que los datos estén disponibles
 
     }

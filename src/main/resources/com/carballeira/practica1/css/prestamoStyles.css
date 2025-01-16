@@ -1,0 +1,66 @@
+/* General style for the window */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f5f5f5; /* Light gray background */
+    -fx-padding: 20px;
+}
+
+
+
+.table-view .cell {
+    -fx-font-size: 12px;
+    -fx-text-fill: #333;
+    -fx-alignment: center-left;
+}
+
+/* Button styles */
+.button {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-color: #007bff; /* Blue background */
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-weight: bold;
+}
+
+/* Hover effect for buttons */
+.button:hover {
+    -fx-background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* 'Reservar Libro' button specific styles */
+#botonReservar {
+    -fx-background-color: #28a745; /* Green background */
+}
+
+#botonReservar:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+/* 'Devolver Libro' button */
+#botonDevolver {
+    -fx-background-color: #ffc107; /* Yellow background */
+}
+
+#botonDevolver:hover {
+    -fx-background-color: #e0a800; /* Darker yellow on hover */
+}
+
+/* 'Volver' button */
+#botonVolver {
+    -fx-background-color: #dc3545; /* Red background */
+}
+
+#botonVolver:hover {
+    -fx-background-color: #c82333; /* Darker red on hover */
+}
+
+/* Align elements in HBox */
+.hbox {
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+    -fx-padding: 15px 0;
+}
