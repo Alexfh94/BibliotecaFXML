@@ -139,7 +139,6 @@ public class MenuController {
     private void botonSalirAction() {
 
             showConfirmationAlert("Confirmar salida", "¿Estás seguro de que deseas salir del programa?", () -> {
-            System.out.println("Saliendo del programa");
             Stage stage = (Stage) botonSalir.getScene().getWindow();
             stage.close();
         });
