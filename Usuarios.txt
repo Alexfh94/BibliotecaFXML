@@ -1,2 +1,2 @@
 admin,admin@gmail.com,123456789,abc123.,s
-usuario,usuario@gmail.com,123456789,asd,n
+usuario,usuario@gmail.com,123456788,n,n

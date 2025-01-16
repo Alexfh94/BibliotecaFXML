@@ -16,6 +16,10 @@ import java.util.List;
 
 import static com.carballeira.practica1.utils.AlertUtils.showInfoAlert;
 
+/**
+ * Controlador para editar los detalles de un usuario existente.
+ * Permite actualizar el nombre, correo electrónico, teléfono y estado de administrador de un usuario.
+ */
 public class EditUser2Controller {
 
     private Usuario usuario;
@@ -35,7 +39,10 @@ public class EditUser2Controller {
     @FXML
     private Button botonVolver;
 
-    // Método de inicialización, se llama automáticamente después de cargar el FXML
+    /**
+     * Método de inicialización que se llama automáticamente después de cargar el FXML.
+     * Se usa para cargar los datos actuales del usuario en los campos correspondientes.
+     */
     public void initialize() {
         if (usuario != null) {
             // Si el usuario no es nulo, se cargan sus datos en los campos correspondientes
@@ -52,15 +59,25 @@ public class EditUser2Controller {
         }
     }
 
-    // Método para inicializar el controlador con un objeto Usuario
+    /**
+     * Inicializa el controlador con un objeto Usuario y la lista de usuarios.
+     * @param usuario El usuario que se va a editar.
+     * @param listaUsuarios Lista de todos los usuarios.
+     * @param currentUser El usuario que está actualmente autenticado en la aplicación.
+     */
     public void initData(Usuario usuario,ArrayList<Usuario> listaUsuarios,  Usuario currentUser) {
         this.usuario = usuario;
-        this.listaUsuarios=listaUsuarios;
+        this.listaUsuarios = listaUsuarios;
         this.currentUser = currentUser;
         initialize();
     }
 
-    // Lógica para el botón "Editar Usuario"
+    /**
+     * Lógica para el botón "Editar Usuario".
+     * Permite actualizar la información del usuario y guardar los cambios en el archivo de usuarios.
+     * @param actionEvent El evento generado por la acción del usuario (clic en el botón).
+     * @throws IOException Si ocurre un error al leer o escribir en el archivo de usuarios.
+     */
     public void editarUsuario(ActionEvent actionEvent) throws IOException {
         String emailPrevio = usuario.getEmail();
         usuario.setNombre(nombre.getText());
@@ -79,7 +96,7 @@ public class EditUser2Controller {
         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
-                // Separar la línea por ";"
+                // Separar la línea por ","
                 String[] datosUsuario = linea.split(",");
 
                 // Verificar si la línea corresponde al usuario que estamos editando
@@ -119,20 +136,24 @@ public class EditUser2Controller {
             pantallaUtils.cerrarEstaPantalla(botonVolver);
             FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
             EditUserController editUserController = loader.getController();
-            editUserController.initData(listaUsuarios, currentUser);
-            showInfoAlert("Datos modificados", "Usuario actualizado correctamente");
+            editUserController.initData(listaUsuarios, currentUser); // Inicia el controlador de la página de edición de usuarios
+            showInfoAlert("Datos modificados", "Usuario actualizado correctamente"); // Muestra un mensaje de éxito
         } catch (IOException e) {
             e.printStackTrace();
-
         }
     }
 
-    // Lógica para el botón "Volver"
+    /**
+     * Lógica para el botón "Volver".
+     * Permite volver a la pantalla anterior (sin realizar cambios).
+     * @param actionEvent El evento generado por la acción del usuario (clic en el botón).
+     * @throws IOException Si ocurre un error al cargar la pantalla anterior.
+     */
     public void botonVolverActionPerformed(ActionEvent actionEvent) throws IOException {
         PantallaUtils pantallaUtils = new PantallaUtils();
-        pantallaUtils.cerrarEstaPantalla(botonVolver);
+        pantallaUtils.cerrarEstaPantalla(botonVolver); // Cierra la pantalla de edición de usuario
         FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
         EditUserController editUserController = loader.getController();
-        editUserController.initData(listaUsuarios, currentUser);
+        editUserController.initData(listaUsuarios, currentUser); // Regresa a la pantalla de edición de usuarios
     }
 }

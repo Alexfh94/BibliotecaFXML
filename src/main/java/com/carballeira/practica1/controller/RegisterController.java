@@ -28,17 +28,19 @@ public class RegisterController {
     @FXML
     private Button crearUsuario, botonVolver, mostrarContraseña;
 
-
-    private int contador = 0;
-    private int contador2=0;
-    private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+    private int contador = 0;  // Contador utilizado para alternar entre mostrar y ocultar contraseña
+    private int contador2 = 0; // Contador utilizado para verificar si el usuario ya existe
+    private ArrayList<Usuario> listaUsuarios = new ArrayList<>(); // Lista de usuarios registrados
 
     @FXML
     private void initialize() {
+        // Deshabilitar el botón de mostrar contraseña inicialmente
         mostrarContraseña.setDisable(true);
 
+        // Listener para actualizar el estado del botón al escribir la contraseña
         contraseña.textProperty().addListener((observable, oldValue, newValue) -> actualizarEstadoBoton());
 
+        // Definir las acciones cuando se presionan las teclas en los campos
         nombre.setOnAction(this::crearUsuario);
         email.setOnAction(this::crearUsuario);
         telefono.setOnAction(this::crearUsuario);
@@ -47,13 +49,14 @@ public class RegisterController {
         // Acción de tecla ESC para volver
         botonVolver.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
-                botonVolver.fire();
+                botonVolver.fire();  // Ejecuta la acción de volver si se presiona ESC
             }
         });
 
+        // Acción del botón Volver
         botonVolver.setOnAction(event -> {
             try {
-                botonVolverAction();
+                botonVolverAction();  // Llama al método para cerrar la pantalla actual y volver a la inicial
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -62,42 +65,42 @@ public class RegisterController {
 
     @FXML
     private void crearUsuario(ActionEvent event) {
+        // Obtener los valores ingresados por el usuario
         String nombre1 = nombre.getText();
         String email1 = email.getText();
         String telefono1 = telefono.getText();
         String contraseña1 = contraseña.getText();
-        contador2 = 0;
-        Usuario usuario = new Usuario(nombre1,email1,telefono1,contraseña1,"n");
+        contador2 = 0;  // Reiniciar contador de verificación de existencia del usuario
+        Usuario usuario = new Usuario(nombre1, email1, telefono1, contraseña1, "n");
 
-        //comprobar si existe el usuario previamente
+        // Verificar si el usuario ya existe en la lista
         for (int i = 0; i < listaUsuarios.size(); i++) {
-
             if (listaUsuarios.get(i).getNombre().equals(usuario.getNombre())) {
-                contador2++;
+                contador2++; // Incrementar el contador si el usuario ya existe
             }
         }
 
+        // Validar si los campos son correctos
         if (usuario.validarCampos(nombre1, email1, telefono1, contraseña1)) {
 
-
+            // Si el contador es mayor a 0, significa que el usuario ya existe
             if (contador2 > 0) {
-                showErrorAlert("Error", "El usuario que intenta crear ya existe");
-                contador2 = 0;
+                showErrorAlert("Error", "El usuario que intenta crear ya existe"); // Mostrar alerta de error
+                contador2 = 0; // Reiniciar el contador
             } else {
-
-
+                // Si el usuario no existe, proceder con la creación del usuario
                 try {
+                    // Crear una nueva ventana para el CAPTCHA
                     PantallaUtils pantallaUtils = new PantallaUtils();
                     Stage stage = new Stage();
                     FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_CAPTCHA.getDescripcion(), "CAPTCHA", 400, 600);
                     CaptchaController captchaController = loader.getController();
-                    captchaController.initData(usuario);
-                    pantallaUtils.cerrarEstaPantalla(botonVolver);
-
+                    captchaController.initData(usuario);  // Enviar datos del usuario al controlador CAPTCHA
+                    pantallaUtils.cerrarEstaPantalla(botonVolver);  // Cerrar la pantalla actual
                 } catch (IOException e) {
-                    e.printStackTrace(); // Imprimir la traza del error
+                    e.printStackTrace();  // Imprimir la traza del error
                     Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana de CAPTCHA.");
-                    alert.showAndWait();
+                    alert.showAndWait();  // Mostrar alerta de error si no se puede abrir la ventana CAPTCHA
                 }
             }
         }
@@ -111,20 +114,20 @@ public class RegisterController {
             contraseñaVisible.setText(contraseña.getText());
             contraseña.setVisible(false);
             contraseñaVisible.setVisible(true);
-            mostrarContraseña.setText("Ocultar");
+            mostrarContraseña.setText("Ocultar");  // Cambiar el texto del botón
         } else {
             // Ocultar contraseña: volver a mostrar el PasswordField y ocultar el TextField
             contraseña.setText(contraseñaVisible.getText());
             contraseña.setVisible(true);
             contraseñaVisible.setVisible(false);
-            mostrarContraseña.setText("Mostrar");
+            mostrarContraseña.setText("Mostrar");  // Cambiar el texto del botón
         }
-        contador++;
+        contador++;  // Incrementar el contador para alternar el estado
     }
 
     @FXML
     private void botonVolverAction() throws IOException {
-
+        // Cerrar la pantalla actual y abrir la pantalla inicial
         Stage currentStage = (Stage) botonVolver.getScene().getWindow();
         currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST));
         PantallaUtils pantallaUtils = new PantallaUtils();
@@ -133,11 +136,12 @@ public class RegisterController {
     }
 
     private void actualizarEstadoBoton() {
+        // Habilitar o deshabilitar el botón de mostrar contraseña según si el campo de contraseña no está vacío
         mostrarContraseña.setDisable(contraseña.getText().isEmpty());
     }
 
     public void initData(ArrayList<Usuario> listaUsuarios){
-
+        // Inicializar la lista de usuarios
         this.listaUsuarios = listaUsuarios;
     }
 }
