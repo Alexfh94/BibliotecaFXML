@@ -1,9 +1,9 @@
 El Quijote,Miguel de Cervantes,1605,true
-Cien Años de Soledad,Gabriel García Márquez,1967,true
+Cien Años de Soledad,Gabriel García Márquez,1967,false,16/01/2025,usuario@gmail.com
 1984,George Orwell,1949,false,16/01/2025,usuario@gmail.com
 Matar a un Ruiseñor,Harper Lee,1960,false,16/01/2025,usuario@gmail.com
 La Odisea,Homero,-800,true
-Don Juan Tenorio,José Zorrilla,1844,false,16/01/2025,usuario@gmail.com
+Don Juan Tenorio,José Zorrilla,1844,true
 Orgullo y Prejuicio,Jane Austen,1813,true
 Crimen y Castigo,Fiódor Dostoyevski,1866,true
 El Principito,Antoine de Saint-Exupéry,1943,true
