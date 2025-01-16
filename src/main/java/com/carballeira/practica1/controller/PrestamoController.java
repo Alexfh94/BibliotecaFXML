@@ -244,7 +244,7 @@ public class PrestamoController {
                         setStyle("-fx-alignment: CENTER;");
                         setText(null);
                     } else {
-                        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/carballeira/practica1/img/denied.jpg"))));
+                        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/carballeira/practica1/img/deny.jpg"))));
                         imageView.setFitWidth(20); // Ajusta el tamaño del ícono
                         imageView.setFitHeight(20);
                         setGraphic(imageView);
