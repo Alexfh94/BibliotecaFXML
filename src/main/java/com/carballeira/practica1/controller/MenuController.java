@@ -28,7 +28,7 @@ public class MenuController {
     private Usuario currentUser;
 
     @FXML
-    private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, editarUsuario,botonSalir;
+    private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, editarUsuario, botonSalir;
 
     /**
      * Método que se ejecuta cuando se inicializa la ventana.
@@ -69,47 +69,64 @@ public class MenuController {
     }
 
     /**
+     * Método reutilizable para abrir nuevas ventanas.
+     * @param button Botón que cierra la ventana actual.
+     * @param fxmlPath Ruta al archivo FXML de la nueva ventana.
+     * @param title Título de la nueva ventana.
+     * @param width Ancho de la nueva ventana.
+     * @param height Alto de la nueva ventana.
+     * @return El controlador de la nueva ventana.
+     * @throws IOException Si ocurre un error al cargar la ventana.
+     */
+    private Object abrirNuevaVentana(Button button, String fxmlPath, String title, int width, int height) throws IOException {
+        PantallaUtils pantallaUtils = new PantallaUtils();
+        pantallaUtils.cerrarEstaPantalla(button);
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), fxmlPath, title, width, height);
+        return loader.getController();
+    }
+
+    /**
      * Abre la ventana de inicio de sesión.
-     * Cierra la pantalla actual y abre la pantalla de login.
      */
     @FXML
     private void inicioSesionAction() {
         try {
-            PantallaUtils pantallaUtils = new PantallaUtils();
-            pantallaUtils.cerrarEstaPantalla(inicioSesion);
-            FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_LOGIN.getDescripcion(), "Iniciar Sesion", 600, 400);
-            LoginController loginController = loader.getController();
+            LoginController loginController = (LoginController) abrirNuevaVentana(
+                    inicioSesion,
+                    Constantes.PAGINA_LOGIN.getDescripcion(),
+                    "Iniciar Sesion",
+                    600,
+                    400
+            );
             loginController.initData(listaUsuarios);
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.");
-            alert.showAndWait();
+            new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.").showAndWait();
         }
     }
 
     /**
      * Abre la ventana para crear un nuevo usuario.
-     * Cierra la pantalla actual y abre la pantalla de registro.
      */
     @FXML
     private void crearUsuarioAction() {
         try {
-            PantallaUtils pantallaUtils = new PantallaUtils();
-            pantallaUtils.cerrarEstaPantalla(crearUsuario);
-            Stage stage = new Stage();
-            FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_REGISTRO.getDescripcion(), "REGISTRO", 550, 400);
-            RegisterController registerController = loader.getController();
+            RegisterController registerController = (RegisterController) abrirNuevaVentana(
+                    crearUsuario,
+                    Constantes.PAGINA_REGISTRO.getDescripcion(),
+                    "REGISTRO",
+                    550,
+                    400
+            );
             registerController.initData(listaUsuarios);
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.");
-            alert.showAndWait();
+            new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.").showAndWait();
         }
     }
 
     /**
      * Cierra la sesión actual.
-     * Muestra una confirmación antes de proceder con el cierre de sesión y luego desactiva las opciones relacionadas.
      */
     @FXML
     private void cerrarSesionAction() {
@@ -122,39 +139,41 @@ public class MenuController {
 
     /**
      * Abre la pantalla para realizar préstamos y devoluciones de libros.
-     * Cierra la pantalla actual y abre la pantalla de préstamos.
      */
     @FXML
     private void realizarDevolucionAction() throws IOException {
-        PantallaUtils pantallaUtils = new PantallaUtils();
-        pantallaUtils.cerrarEstaPantalla(inicioSesion);
-        FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_PRESTAMO.getDescripcion(), "Realizar prestamos y devoluciones", 1200, 600);
-        PrestamoController prestamoController = loader.getController();
+        PrestamoController prestamoController = (PrestamoController) abrirNuevaVentana(
+                inicioSesion,
+                Constantes.PAGINA_PRESTAMO.getDescripcion(),
+                "Realizar prestamos y devoluciones",
+                1200,
+                600
+        );
         prestamoController.initData(currentUser, listaLibros);
     }
 
     /**
      * Abre la pantalla para editar un usuario.
-     * Cierra la pantalla actual y abre la pantalla para editar el usuario actual.
      */
     @FXML
     private void editarUsuarioAction() {
         try {
-            PantallaUtils pantallaUtils = new PantallaUtils();
-            pantallaUtils.cerrarEstaPantalla(inicioSesion);
-            FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
-            EditUserController editUserController = loader.getController();
+            EditUserController editUserController = (EditUserController) abrirNuevaVentana(
+                    inicioSesion,
+                    Constantes.PAGINA_MODIFICAR.getDescripcion(),
+                    "Editar Usuarios",
+                    600,
+                    400
+            );
             editUserController.initData(listaUsuarios, currentUser);
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.");
-            alert.showAndWait();
+            new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana.").showAndWait();
         }
     }
 
     /**
      * Método que se ejecuta cuando el usuario desea salir de la aplicación.
-     * Muestra una confirmación antes de cerrar la ventana de la aplicación.
      */
     @FXML
     private void botonSalirAction() {
@@ -189,11 +208,9 @@ public class MenuController {
     private void cargarUsuariosDesdeArchivo() {
         BufferedReader reader = null;
         try {
-            // Abrir el archivo Usuarios.txt para leer los datos
             reader = new BufferedReader(new FileReader("Usuarios.txt"));
             String line;
 
-            // Leer cada línea del archivo
             while ((line = reader.readLine()) != null) {
                 String[] partes = line.split(",");
                 if (partes.length == 5) {
@@ -202,54 +219,51 @@ public class MenuController {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace(); // Imprimir traza del error si ocurre una excepción
+            e.printStackTrace();
             showErrorAlert("Error", "No se pudo cargar el archivo de usuarios.");
         } finally {
             try {
                 if (reader != null) {
-                    reader.close(); // Cerrar el BufferedReader después de usarlo
+                    reader.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace(); // Imprimir traza del error si ocurre una excepción al cerrar el archivo
+                e.printStackTrace();
             }
         }
     }
 
     /**
      * Carga los libros desde el archivo `Libros.txt` y los agrega a la lista de libros.
-     * El formato del archivo de libros incluye información sobre disponibilidad, fecha de devolución y email de reserva si es necesario.
      */
     private void cargarLibrosDesdeArchivo() {
         BufferedReader reader = null;
         try {
-            // Abrir el archivo Libros.txt para leer los datos
             reader = new BufferedReader(new FileReader("Libros.txt"));
             String line;
 
-            // Leer cada línea del archivo
             while ((line = reader.readLine()) != null) {
                 String[] partes = line.split(",");
                 if (partes.length == 4) {
-                    Boolean disponible = partes[3].equals("true") ? true : false;
+                    Boolean disponible = partes[3].equals("true");
                     Libro libro = new Libro(partes[0], partes[1], partes[2], disponible);
                     listaLibros.add(libro);
                 }
                 if (partes.length == 6) {
-                    Boolean disponible = partes[3].equals("true") ? true : false;
+                    Boolean disponible = partes[3].equals("true");
                     Libro libro = new Libro(partes[0], partes[1], partes[2], disponible, partes[4], partes[5]);
                     listaLibros.add(libro);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace(); // Imprimir traza del error si ocurre una excepción
+            e.printStackTrace();
             showErrorAlert("Error", "No se pudo cargar el archivo de libros.");
         } finally {
             try {
                 if (reader != null) {
-                    reader.close(); // Cerrar el BufferedReader después de usarlo
+                    reader.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace(); // Imprimir traza del error si ocurre una excepción al cerrar el archivo
+                e.printStackTrace();
             }
         }
     }

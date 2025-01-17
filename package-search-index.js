@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.carballeira.practica1","l":"com.carballeira.practica1"},{"m":"com.carballeira.practica1","l":"com.carballeira.practica1.controller"},{"m":"com.carballeira.practica1","l":"com.carballeira.practica1.model"},{"m":"com.carballeira.practica1","l":"com.carballeira.practica1.utils"}];updateSearchResults();
