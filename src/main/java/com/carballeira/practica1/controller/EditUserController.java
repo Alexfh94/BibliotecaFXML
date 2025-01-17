@@ -146,7 +146,7 @@ public class EditUserController {
             return;
         }
         // Confirmar antes de eliminar
-        AlertUtils.showConfirmationAlert("Confirmar borrado", "¿Estás seguro de que deseas eliminar el usuario: " + nombreUsuario, () -> {
+        AlertUtils.showConfirmationAlert("Confirmar borrado", "¿Estás seguro de que deseas eliminar el usuario: " + selectedUser.getNombre(), () -> {
             String emailPrevio = selectedUser.getEmail();
             String archivoUsuarios = "Usuarios.txt";
             File archivo = new File(archivoUsuarios);
