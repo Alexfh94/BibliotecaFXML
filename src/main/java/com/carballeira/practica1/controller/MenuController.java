@@ -248,9 +248,9 @@ public class MenuController {
                     Libro libro = new Libro(partes[0], partes[1], partes[2], disponible);
                     listaLibros.add(libro);
                 }
-                if (partes.length == 6) {
+                if (partes.length == 7) {
                     Boolean disponible = partes[3].equals("true");
-                    Libro libro = new Libro(partes[0], partes[1], partes[2], disponible, partes[4], partes[5]);
+                    Libro libro = new Libro(partes[0], partes[1], partes[2], disponible, partes[4], partes[5]), partes[6];
                     listaLibros.add(libro);
                 }
             }
