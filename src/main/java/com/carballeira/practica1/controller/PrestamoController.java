@@ -67,6 +67,9 @@ public class PrestamoController {
     private TableColumn<?, ?> colFechaReservado;
 
     @FXML
+    private TableColumn<?, ?> colFechaDevolucion;
+
+    @FXML
     private TableColumn<?, ?> colTituloDisponible;
 
     @FXML
@@ -109,7 +112,8 @@ public class PrestamoController {
         AlertUtils.showConfirmationAlert("Confirmar reserva", "¿Estás seguro de que deseas reservar el libro: " + selectedLibro.getTitulo(), () -> {
             // Establecer los detalles de la reserva para el libro
             selectedLibro.setEmailUsuarioReservado(usuario.getEmail());
-            selectedLibro.setFechaDevolucion(getFechaActual());
+            selectedLibro.setFechaPrestamo(getFechaActual());
+            selectedLibro.setFechaDevolucion(getFechaEnDosSemanas());
             selectedLibro.setDisponible(false);
 
             // Actualizar la lista de libros con el libro reservado
@@ -148,6 +152,7 @@ public class PrestamoController {
         AlertUtils.showConfirmationAlert("Confirmar devolucion", "¿Estás seguro de que deseas devolver el libro: " + selectedLibro.getTitulo(), () -> {
             // Establecer los detalles de la devolución para el libro
             selectedLibro.setEmailUsuarioReservado(null);
+            selectedLibro.setFechaPrestamo(null);
             selectedLibro.setFechaDevolucion(null);
             selectedLibro.setDisponible(true);
 
@@ -262,7 +267,9 @@ public class PrestamoController {
         colTituloReservado.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         colAutorReservado.setCellValueFactory(new PropertyValueFactory<>("autor"));
         colAñoReservado.setCellValueFactory(new PropertyValueFactory<>("añoPublicacion"));
-        colFechaReservado.setCellValueFactory(new PropertyValueFactory<>("fechaDevolucion"));
+        colFechaReservado.setCellValueFactory(new PropertyValueFactory<>("fechaPrestamo"));
+        colFechaDevolucion.setCellValueFactory(new PropertyValueFactory<>("fechaDevolucion"));
+
 
         tablaReservados.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
@@ -297,17 +304,24 @@ public class PrestamoController {
         return LocalDate.now().format(formatter);
     }
 
+    private String getFechaEnDosSemanas() {
+        // Obtiene la fecha actual y le suma 14 días en formato dd/MM/yyyy
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.now().plusDays(14).format(formatter);
+    }
+
+
     private void actualizarArchivoLibros() {
         // Actualiza el archivo de libros con la información más reciente
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Libros.txt"))) {
             for (Libro libro : listaLibros) {
-                if (libro.getEmailUsuarioReservado()==null || libro.getFechaDevolucion() ==null) {
+                if (libro.getEmailUsuarioReservado()==null || libro.getFechaPrestamo() ==null){
                     writer.write(libro.getTitulo() + "," + libro.getAutor() + "," + libro.getAñoPublicacion()
                             + "," + libro.getDisponible() + "\n");
 
                 }else{
                     writer.write(libro.getTitulo() + "," + libro.getAutor() + "," + libro.getAñoPublicacion()
-                            + "," + libro.getDisponible() + "," + libro.getFechaDevolucion() + "," + libro.getEmailUsuarioReservado() + "\n");
+                            + "," + libro.getDisponible() + "," + libro.getFechaPrestamo() + "," + libro.getFechaDevolucion() + "," + libro.getEmailUsuarioReservado() + "\n");
                 }
             }
         } catch (IOException e) {
