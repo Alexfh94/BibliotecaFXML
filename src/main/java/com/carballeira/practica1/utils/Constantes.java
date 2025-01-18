@@ -57,7 +57,7 @@ public enum Constantes {
     LIBRO_DEVUELTO_MSG("Libro devuelto correctamente"),
     FORMATO_FECHA("dd/MM/yyyy"),
     ICONO_CONFIRM("/com/carballeira/practica1/img/confirm.png"),
-    ICONO_DENY("/com/carballeira/practica1/img/deny.png"),
+    ICONO_DENY("/com/carballeira/practica1/img/deny.jpg"),
     MOSTRAR("Mostrar"),
     OCULTAR("Ocultar"),
     ES_ADMIN("s"),

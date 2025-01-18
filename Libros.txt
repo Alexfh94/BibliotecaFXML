@@ -3,8 +3,8 @@ La Odisea,Homero,-800,true
 Don Juan Tenorio,José Zorrilla,1844,true
 Orgullo y Prejuicio,Jane Austen,1813,true
 Crimen y Castigo,Fiódor Dostoyevski,1866,true
-El Principito,Antoine de Saint-Exupéry,1943,true
-La Metamorfosis,Franz Kafka,1915,false,18/01/2025,01/02/2025,usuario@gmail.com
+El Principito,Antoine de Saint-Exupéry,1943,false,18/01/2025,01/02/2025,probando@
+La Metamorfosis,Franz Kafka,1915,false,01/02/2025,01/02/2025,usuario@gmail.com
 El Gran Gatsby,F. Scott Fitzgerald,1925,true
 Cumbres Borrascosas,Emily Brontë,1847,true
 En busca del tiempo perdido,Marcel Proust,1913,true
