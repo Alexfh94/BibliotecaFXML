@@ -23,7 +23,7 @@
         <Button fx:id="crearUsuario" text="Crear Usuario" id="main-button" onAction="#crearUsuarioAction"/>
         <Button fx:id="inicioSesion" text="Iniciar Sesion" id="main-button" onAction="#inicioSesionAction"/>
         <Button fx:id="realizarDevolucion" text="Prestamos y Devoluciones" id="main-button" onAction="#realizarDevolucionAction"/>
-        <Button fx:id="editarUsuario" text="Modificar Usuario" id="main-button" onAction="#editarUsuarioAction"/>
+        <Button fx:id="editarUsuario" text="Gestionar Usuarios" id="main-button" onAction="#editarUsuarioAction"/>
         <Button fx:id="cerrarSesion" text="Cerrar Sesion" id="main-button" onAction="#cerrarSesionAction"/>
 
     </VBox>
