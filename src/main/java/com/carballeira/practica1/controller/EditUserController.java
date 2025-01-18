@@ -67,7 +67,7 @@ public class EditUserController {
      */
     private void mostrarUsuarios() {
         if (arrayUsuarios == null || arrayUsuarios.isEmpty()) {
-            System.out.println("No hay usuarios para mostrar.");
+            System.out.println(Constantes.NO_HAY_USUARIOS.getDescripcion());
             return;
         }
 
@@ -83,7 +83,7 @@ public class EditUserController {
     private void editActionPerformed() {
         Usuario selectedUser = tablaUsuarios.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
-            AlertUtils.showErrorAlert("Error", "Por favor, selecciona un usuario para modificar.");
+            AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_EDITAR_USUARIO_SELECCIONADO.getDescripcion());
             return;
         }
 
@@ -93,15 +93,15 @@ public class EditUserController {
         admin = selectedUser.getAdmin();
 
         // Mostrar alerta de confirmación antes de proceder con la edición
-        AlertUtils.showConfirmationAlert("Confirmar modificación", "¿Estás seguro de que deseas modificar los datos del usuario: " + nombreUsuario, () -> {
+        AlertUtils.showConfirmationAlert(Constantes.CONFIRMAR_MODIFICACION.getDescripcion(), Constantes.CONFIRMAR_MODIFICACION_MSG.getDescripcion() + nombreUsuario, () -> {
             try {
                 PantallaUtils pantallaUtils = new PantallaUtils();
                 pantallaUtils.cerrarEstaPantalla(botonVolver); // Cierra la pantalla actual
-                FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR2.getDescripcion(), "Editar Usuario Seleccionado", 600, 400);
+                FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR2.getDescripcion(), Constantes.TITULO_EDITAR_USUARIO.getDescripcion(), 600, 400);
                 EditUser2Controller editUser2Controller = loader.getController();
                 editUser2Controller.initData(selectedUser, arrayUsuarios, currentUser); // Pasa los datos al controlador de la pantalla de edición
             } catch (IOException e) {
-                AlertUtils.showErrorAlert("Error", "No se pudo abrir la ventana de modificación: " + e.getMessage());
+                AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_ABRIR_MODIFICACION.getDescripcion() + e.getMessage());
             }
         });
     }
@@ -117,7 +117,7 @@ public class EditUserController {
         currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST)); // Cierra la ventana actual
         PantallaUtils pantallaUtils = new PantallaUtils();
         Stage stage = new Stage();
-        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), Constantes.TITULO_BIBLIOTECA.getDescripcion(), 400, 600);
         MenuController menuController = loader.getController();
         menuController.initSesion(currentUser); // Inicia el menú principal con la sesión del usuario actual
     }
@@ -142,13 +142,13 @@ public class EditUserController {
     public void deleteActionPerformed(ActionEvent actionEvent) {
         Usuario selectedUser = tablaUsuarios.getSelectionModel().getSelectedItem();
         if (selectedUser == null) {
-            AlertUtils.showErrorAlert("Error", "Por favor, selecciona un usuario para borrar.");
+            AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_ELIMINAR_USUARIO.getDescripcion());
             return;
         }
         // Confirmar antes de eliminar
-        AlertUtils.showConfirmationAlert("Confirmar borrado", "¿Estás seguro de que deseas eliminar el usuario: " + selectedUser.getNombre(), () -> {
+        AlertUtils.showConfirmationAlert(Constantes.CONFIRMAR_BORRADO.getDescripcion(), Constantes.CONFIRMAR_BORRADO_MSG.getDescripcion() + selectedUser.getNombre(), () -> {
             String emailPrevio = selectedUser.getEmail();
-            String archivoUsuarios = "Usuarios.txt";
+            String archivoUsuarios = Constantes.ARCHIVO_USUARIOS.getDescripcion();
             File archivo = new File(archivoUsuarios);
             List<String> lineas = new ArrayList<>();
 
@@ -164,7 +164,7 @@ public class EditUserController {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                AlertUtils.showErrorAlert("Error", "Ocurrió un error al leer el archivo.");
+                AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_LECTURA_ARCHIVO.getDescripcion());
                 return;
             }
 
@@ -176,12 +176,12 @@ public class EditUserController {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                AlertUtils.showErrorAlert("Error", "Ocurrió un error al escribir el archivo.");
+                AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_ESCRITURA_ARCHIVO.getDescripcion());
                 return;
             }
             arrayUsuarios.remove(selectedUser); // Eliminar el usuario de la lista en memoria
             mostrarUsuarios(); // Actualizar la tabla de usuarios
-            showInfoAlert("Usuario eliminado", "Usuario eliminado correctamente");
+            showInfoAlert(Constantes.USUARIO_ELIMINADO.getDescripcion(), Constantes.USUARIO_ELIMINADO_MSG.getDescripcion());
         });
     }
 }

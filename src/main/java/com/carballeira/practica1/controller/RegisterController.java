@@ -10,8 +10,10 @@ import javafx.event.ActionEvent;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
 import java.io.IOException;
 import java.util.ArrayList;
+
 import static com.carballeira.practica1.utils.AlertUtils.showErrorAlert;
 
 public class RegisterController {
@@ -26,7 +28,7 @@ public class RegisterController {
     private TextField contraseñaVisible;
 
     @FXML
-    private Button crearUsuario, botonVolver, mostrarContraseña;
+    private Button botonVolver, mostrarContraseña;
 
     private int contador = 0;  // Contador utilizado para alternar entre mostrar y ocultar contraseña
     private int contador2 = 0; // Contador utilizado para verificar si el usuario ya existe
@@ -85,7 +87,7 @@ public class RegisterController {
 
             // Si el contador es mayor a 0, significa que el usuario ya existe
             if (contador2 > 0) {
-                showErrorAlert("Error", "El usuario que intenta crear ya existe"); // Mostrar alerta de error
+                showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_USUARIO_EXISTE.getDescripcion());
                 contador2 = 0; // Reiniciar el contador
             } else {
                 // Si el usuario no existe, proceder con la creación del usuario
@@ -93,13 +95,19 @@ public class RegisterController {
                     // Crear una nueva ventana para el CAPTCHA
                     PantallaUtils pantallaUtils = new PantallaUtils();
                     Stage stage = new Stage();
-                    FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_CAPTCHA.getDescripcion(), "CAPTCHA", 400, 600);
+                    FXMLLoader loader = pantallaUtils.showEstaPantalla(
+                            stage,
+                            Constantes.PAGINA_CAPTCHA.getDescripcion(),
+                            Constantes.TITULO_CAPTCHA.getDescripcion(),
+                            400,
+                            600
+                    );
                     CaptchaController captchaController = loader.getController();
                     captchaController.initData(usuario);  // Enviar datos del usuario al controlador CAPTCHA
                     pantallaUtils.cerrarEstaPantalla(botonVolver);  // Cerrar la pantalla actual
                 } catch (IOException e) {
                     e.printStackTrace();  // Imprimir la traza del error
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana de CAPTCHA.");
+                    Alert alert = new Alert(Alert.AlertType.ERROR, Constantes.ERROR_VENTANA_CAPTCHA.getDescripcion());
                     alert.showAndWait();  // Mostrar alerta de error si no se puede abrir la ventana CAPTCHA
                 }
             }
@@ -114,13 +122,13 @@ public class RegisterController {
             contraseñaVisible.setText(contraseña.getText());
             contraseña.setVisible(false);
             contraseñaVisible.setVisible(true);
-            mostrarContraseña.setText("Ocultar");  // Cambiar el texto del botón
+            mostrarContraseña.setText(Constantes.OCULTAR.getDescripcion());  // Cambiar el texto del botón
         } else {
             // Ocultar contraseña: volver a mostrar el PasswordField y ocultar el TextField
             contraseña.setText(contraseñaVisible.getText());
             contraseña.setVisible(true);
             contraseñaVisible.setVisible(false);
-            mostrarContraseña.setText("Mostrar");  // Cambiar el texto del botón
+            mostrarContraseña.setText(Constantes.MOSTRAR.getDescripcion());  // Cambiar el texto del botón
         }
         contador++;  // Incrementar el contador para alternar el estado
     }
@@ -132,7 +140,13 @@ public class RegisterController {
         currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST));
         PantallaUtils pantallaUtils = new PantallaUtils();
         Stage stage = new Stage();
-        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+        pantallaUtils.showEstaPantalla(
+                stage,
+                Constantes.PAGINA_INICIAL.getDescripcion(),
+                Constantes.TITULO_BIBLIOTECA.getDescripcion(),
+                400,
+                600
+        );
     }
 
     private void actualizarEstadoBoton() {
@@ -140,7 +154,7 @@ public class RegisterController {
         mostrarContraseña.setDisable(contraseña.getText().isEmpty());
     }
 
-    public void initData(ArrayList<Usuario> listaUsuarios){
+    public void initData(ArrayList<Usuario> listaUsuarios) {
         // Inicializar la lista de usuarios
         this.listaUsuarios = listaUsuarios;
     }

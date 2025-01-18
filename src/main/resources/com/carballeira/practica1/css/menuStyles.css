@@ -41,3 +41,12 @@
 #exit-button:hover {
     -fx-background-color: #a71d2a;
 }
+
+/* Usuario actual label style */
+#usuario-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #555;
+    -fx-font-weight: bold;
+    -fx-alignment: center-right;
+    -fx-padding: 0 10 10 0;
+}

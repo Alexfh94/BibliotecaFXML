@@ -21,7 +21,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -60,8 +59,7 @@ public class PrestamoController {
     private TableColumn<?, ?> colAñoReservado;
 
     @FXML
-    private TableColumn<Libro, Boolean> colDisponible; // Cambia el tipo genérico a Boolean
-
+    private TableColumn<Libro, Boolean> colDisponible;
 
     @FXML
     private TableColumn<?, ?> colFechaReservado;
@@ -81,11 +79,8 @@ public class PrestamoController {
     @FXML
     private TableView<Libro> tablaReservados;
 
-
-
     @FXML
     public void initialize() {
-        // Configura la tabla de libros disponibles y los listeners de los eventos
         configurarTablaDisponibles();
         configureListeners();
         configurarTablaReservados();
@@ -93,30 +88,24 @@ public class PrestamoController {
 
     @FXML
     void lendActionPerformed(ActionEvent event) {
-        // Obtener el libro seleccionado de la tabla de disponibles
         Libro selectedLibro = tablaDisponibles.getSelectionModel().getSelectedItem();
 
         if (selectedLibro == null) {
-            // Mostrar mensaje de error si no se ha seleccionado un libro
-            AlertUtils.showErrorAlert("Error", "Por favor, selecciona un libro para reservarlo.");
+            AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.POR_FAVOR_SELECCIONA_LIBRO.getDescripcion());
             return;
         }
 
-        // Verificar si el libro seleccionado está disponible
-        if (!selectedLibro.getDisponible()){
-            AlertUtils.showErrorAlert("Error", "El libro seleccionado no esta disponible.");
+        if (!selectedLibro.getDisponible()) {
+            AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.LIBRO_NO_DISPONIBLE.getDescripcion());
             return;
         }
 
-        // Mostrar alerta de confirmación antes de reservar el libro
-        AlertUtils.showConfirmationAlert("Confirmar reserva", "¿Estás seguro de que deseas reservar el libro: " + selectedLibro.getTitulo(), () -> {
-            // Establecer los detalles de la reserva para el libro
+        AlertUtils.showConfirmationAlert(Constantes.CONFIRMAR_RESERVA.getDescripcion(), Constantes.CONFIRMAR_RESERVA_MSG.getDescripcion() + selectedLibro.getTitulo(), () -> {
             selectedLibro.setEmailUsuarioReservado(usuario.getEmail());
             selectedLibro.setFechaPrestamo(getFechaActual());
             selectedLibro.setFechaDevolucion(getFechaEnDosSemanas());
             selectedLibro.setDisponible(false);
 
-            // Actualizar la lista de libros con el libro reservado
             for (int i = 0; i < listaLibros.size(); i++) {
                 if (listaLibros.get(i).getTitulo().equals(selectedLibro.getTitulo())) {
                     listaLibros.set(i, selectedLibro);
@@ -124,39 +113,30 @@ public class PrestamoController {
                 }
             }
 
-            // Agregar el libro a la lista de reservados
             librosReservados.add(selectedLibro);
-            // Actualizar el archivo de libros y las tablas
             actualizarArchivoLibros();
             configurarTablaDisponibles();
             configurarTablaReservados();
             rellenarTablas();
         });
 
-        // Mostrar mensaje de éxito al reservar el libro
-        showInfoAlert("Libro reservado", "Libro reservado correctamente");
+        showInfoAlert(Constantes.LIBRO_RESERVADO.getDescripcion(), Constantes.LIBRO_RESERVADO_MSG.getDescripcion());
     }
-
 
     @FXML
     void returnActionPerformed(ActionEvent event) {
-        // Obtener el libro seleccionado de la tabla de reservados
         Libro selectedLibro = tablaReservados.getSelectionModel().getSelectedItem();
         if (selectedLibro == null) {
-            // Mostrar mensaje de error si no se ha seleccionado un libro
-            AlertUtils.showErrorAlert("Error", "Por favor, selecciona un libro para devolverlo.");
+            AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.POR_FAVOR_SELECCIONA_LIBRO_DEVOLVER.getDescripcion());
             return;
         }
 
-        // Mostrar alerta de confirmación antes de devolver el libro
-        AlertUtils.showConfirmationAlert("Confirmar devolucion", "¿Estás seguro de que deseas devolver el libro: " + selectedLibro.getTitulo(), () -> {
-            // Establecer los detalles de la devolución para el libro
+        AlertUtils.showConfirmationAlert(Constantes.CONFIRMAR_DEVOLUCION.getDescripcion(), Constantes.CONFIRMAR_DEVOLUCION_MSG.getDescripcion() + selectedLibro.getTitulo(), () -> {
             selectedLibro.setEmailUsuarioReservado(null);
             selectedLibro.setFechaPrestamo(null);
-            selectedLibro.setFechaDevolucion(null);
+            selectedLibro.setFechaPrestamo(null);
             selectedLibro.setDisponible(true);
 
-            // Actualizar la lista de libros con el libro devuelto
             for (int i = 0; i < listaLibros.size(); i++) {
                 if (listaLibros.get(i).getTitulo().equals(selectedLibro.getTitulo())) {
                     listaLibros.set(i, selectedLibro);
@@ -164,51 +144,42 @@ public class PrestamoController {
                 }
             }
 
-            // Eliminar el libro de la lista de reservados
             librosReservados.remove(selectedLibro);
-            // Actualizar el archivo de libros y las tablas
             actualizarArchivoLibros();
             configurarTablaDisponibles();
             configurarTablaReservados();
             rellenarTablas();
         });
 
-        // Mostrar mensaje de éxito al devolver el libro
-        showInfoAlert("Libro Devuelto", "Libro devuelto correctamente");
+        showInfoAlert(Constantes.LIBRO_DEVUELTO.getDescripcion(), Constantes.LIBRO_DEVUELTO_MSG.getDescripcion());
     }
 
     @FXML
     void volverActionPerformed(ActionEvent event) throws IOException {
-        // Cerrar la ventana actual y redirigir a la pantalla principal
         Stage currentStage = (Stage) botonVolver.getScene().getWindow();
         currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST));
         PantallaUtils pantallaUtils = new PantallaUtils();
         Stage stage = new Stage();
-        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), Constantes.TITULO_BIBLIOTECA.getDescripcion(), 400, 600);
         MenuController menuController = loader.getController();
         menuController.initSesion(usuario);
     }
 
-    public void initData(Usuario usuario, ArrayList<Libro> listaLibros){
-        // Inicializa los datos con el usuario y lista de libros
-        this.usuario=usuario;
+    public void initData(Usuario usuario, ArrayList<Libro> listaLibros) {
+        this.usuario = usuario;
         this.listaLibros = listaLibros;
         rellenarTablas();
     }
 
     public void rellenarTablas() {
-        // Verifica si la lista de libros está vacía o nula
         if (listaLibros == null || listaLibros.isEmpty()) {
-            System.out.println("No hay libros para mostrar.");
+            System.out.println(Constantes.NO_HAY_LIBROS.getDescripcion());
             return;
         }
 
-        // Limpiar la lista de libros reservados para evitar duplicados
         librosReservados.clear();
 
-        // Iterar sobre la lista de libros
         for (Libro libro : listaLibros) {
-            // Verificar si el libro está reservado por el usuario actual
             if (libro.getEmailUsuarioReservado() != null &&
                     !libro.getEmailUsuarioReservado().isEmpty() &&
                     libro.getEmailUsuarioReservado().equals(usuario.getEmail())) {
@@ -216,14 +187,12 @@ public class PrestamoController {
             }
         }
 
-        // Crear y asignar las listas observables
         ObservableList<Libro> librosList = FXCollections.observableArrayList(listaLibros);
         tablaDisponibles.setItems(librosList);
 
         ObservableList<Libro> reservadosList = FXCollections.observableArrayList(librosReservados);
-        tablaReservados.setItems(reservadosList); // Asignar los libros reservados a la tabla correspondiente
+        tablaReservados.setItems(reservadosList);
     }
-
 
     private void configurarTablaDisponibles() {
         // Configura las columnas de la tabla de libros disponibles
@@ -242,14 +211,14 @@ public class PrestamoController {
                 } else {
                     if (item) {
                         // Crear un ícono verde con un tick
-                        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/carballeira/practica1/img/confirm.png"))));
+                        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(Constantes.ICONO_CONFIRM.getDescripcion()))));
                         imageView.setFitWidth(20); // Ajusta el tamaño del ícono
                         imageView.setFitHeight(20);
                         setGraphic(imageView);
                         setStyle("-fx-alignment: CENTER;");
                         setText(null);
                     } else {
-                        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/carballeira/practica1/img/deny.jpg"))));
+                        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(Constantes.ICONO_DENY.getDescripcion()))));
                         imageView.setFitWidth(20); // Ajusta el tamaño del ícono
                         imageView.setFitHeight(20);
                         setGraphic(imageView);
@@ -263,63 +232,52 @@ public class PrestamoController {
     }
 
     private void configurarTablaReservados() {
-        // Configura las columnas de la tabla de libros reservados
         colTituloReservado.setCellValueFactory(new PropertyValueFactory<>("titulo"));
         colAutorReservado.setCellValueFactory(new PropertyValueFactory<>("autor"));
         colAñoReservado.setCellValueFactory(new PropertyValueFactory<>("añoPublicacion"));
         colFechaReservado.setCellValueFactory(new PropertyValueFactory<>("fechaPrestamo"));
         colFechaDevolucion.setCellValueFactory(new PropertyValueFactory<>("fechaDevolucion"));
 
-
         tablaReservados.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     private void configureListeners() {
-        // Listener para la tabla de libros disponibles
         tablaDisponibles.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                // Deseleccionar el elemento de la tabla de libros reservados
                 tablaReservados.getSelectionModel().clearSelection();
-                botonReservar.setDisable(false); // Habilitar el botón de reservar si hay una selección
+                botonReservar.setDisable(false);
             } else {
-                botonReservar.setDisable(true); // Deshabilitar el botón si no hay selección
+                botonReservar.setDisable(true);
             }
         });
 
-        // Listener para la tabla de libros reservados
         tablaReservados.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                // Deseleccionar el elemento de la tabla de libros disponibles
                 tablaDisponibles.getSelectionModel().clearSelection();
-                botonDevolver.setDisable(false); // Habilitar el botón de devolver si hay una selección
+                botonDevolver.setDisable(false);
             } else {
-                botonDevolver.setDisable(true); // Deshabilitar el botón si no hay selección
+                botonDevolver.setDisable(true);
             }
         });
     }
 
     private String getFechaActual() {
-        // Obtiene la fecha actual en formato dd/MM/yyyy
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constantes.FORMATO_FECHA.getDescripcion());
         return LocalDate.now().format(formatter);
     }
 
     private String getFechaEnDosSemanas() {
-        // Obtiene la fecha actual y le suma 14 días en formato dd/MM/yyyy
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constantes.FORMATO_FECHA.getDescripcion());
         return LocalDate.now().plusDays(14).format(formatter);
     }
 
-
     private void actualizarArchivoLibros() {
-        // Actualiza el archivo de libros con la información más reciente
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Libros.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constantes.ARCHIVO_LIBROS.getDescripcion()))) {
             for (Libro libro : listaLibros) {
-                if (libro.getEmailUsuarioReservado()==null || libro.getFechaPrestamo() ==null){
+                if (libro.getEmailUsuarioReservado() == null || libro.getFechaPrestamo() == null) {
                     writer.write(libro.getTitulo() + "," + libro.getAutor() + "," + libro.getAñoPublicacion()
                             + "," + libro.getDisponible() + "\n");
-
-                }else{
+                } else {
                     writer.write(libro.getTitulo() + "," + libro.getAutor() + "," + libro.getAñoPublicacion()
                             + "," + libro.getDisponible() + "," + libro.getFechaPrestamo() + "," + libro.getFechaDevolucion() + "," + libro.getEmailUsuarioReservado() + "\n");
                 }

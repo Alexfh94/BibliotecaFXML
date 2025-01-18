@@ -6,14 +6,16 @@ public class Libro {
     private String autor;
     private String añoPublicacion;
     private Boolean disponible;
+    private String fechaPrestamo;
     private String fechaDevolucion;
     private String emailUsuarioReservado;
 
-    public Libro(String titulo, String autor, String añoPublicacion, Boolean disponible, String fechaDevolucion, String emailUsuarioReservado) {
+    public Libro(String titulo, String autor, String añoPublicacion, Boolean disponible, String fechaPrestamo, String fechaDevolucion, String emailUsuarioReservado) {
         this.titulo = titulo;
         this.autor = autor;
         this.añoPublicacion = añoPublicacion;
         this.disponible = disponible;
+        this.fechaPrestamo = fechaDevolucion;
         this.fechaDevolucion = fechaDevolucion;
         this.emailUsuarioReservado=emailUsuarioReservado;
     }
@@ -58,12 +60,12 @@ public class Libro {
         this.disponible = disponible;
     }
 
-    public String getFechaDevolucion() {
-        return fechaDevolucion;
+    public String getFechaPrestamo() {
+        return fechaPrestamo;
     }
 
-    public void setFechaDevolucion(String fechaDevolucion) {
-        this.fechaDevolucion = fechaDevolucion;
+    public void setFechaPrestamo(String fechaPrestamo) {
+        this.fechaPrestamo = fechaPrestamo;
     }
 
     public String getEmailUsuarioReservado() {
@@ -72,6 +74,14 @@ public class Libro {
 
     public void setEmailUsuarioReservado(String emailUsuarioReservado) {
         this.emailUsuarioReservado = emailUsuarioReservado;
+    }
+
+    public String getFechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    public void setFechaDevolucion(String fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
     }
 
     public boolean isDisponible(){

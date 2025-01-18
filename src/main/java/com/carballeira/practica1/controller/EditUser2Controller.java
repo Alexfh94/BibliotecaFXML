@@ -51,7 +51,7 @@ public class EditUser2Controller {
             telefono.setText(usuario.getTelefono());
 
             // Asignar el estado del CheckBox de admin basado en el valor de usuario
-            if ("s".equals(usuario.getAdmin())) {
+            if (Constantes.ES_ADMIN.getDescripcion().equals(usuario.getAdmin())) {
                 adminCB.setSelected(true);
             } else {
                 adminCB.setSelected(false);
@@ -65,7 +65,7 @@ public class EditUser2Controller {
      * @param listaUsuarios Lista de todos los usuarios.
      * @param currentUser El usuario que está actualmente autenticado en la aplicación.
      */
-    public void initData(Usuario usuario,ArrayList<Usuario> listaUsuarios,  Usuario currentUser) {
+    public void initData(Usuario usuario, ArrayList<Usuario> listaUsuarios, Usuario currentUser) {
         this.usuario = usuario;
         this.listaUsuarios = listaUsuarios;
         this.currentUser = currentUser;
@@ -83,10 +83,10 @@ public class EditUser2Controller {
         usuario.setNombre(nombre.getText());
         usuario.setEmail(email.getText());
         usuario.setTelefono(telefono.getText());
-        usuario.setAdmin(adminCB.isSelected() ? "s" : "n");
+        usuario.setAdmin(adminCB.isSelected() ? Constantes.ES_ADMIN.getDescripcion() : Constantes.NO_ADMIN.getDescripcion());
 
         // Ruta del archivo donde están los datos de los usuarios
-        String archivoUsuarios = "Usuarios.txt";
+        String archivoUsuarios = Constantes.ARCHIVO_USUARIOS.getDescripcion();
 
         // Leer el archivo y almacenar todas las líneas
         File archivo = new File(archivoUsuarios);
@@ -119,7 +119,7 @@ public class EditUser2Controller {
 
             // Si no se encuentra el usuario, podemos agregar un mensaje o lanzar una excepción
             if (!usuarioEncontrado) {
-                System.out.println("Usuario no encontrado para editar.");
+                System.out.println(Constantes.ERROR_EDITAR_USUARIO.getDescripcion());
                 return; // Terminar si no encontramos al usuario
             }
         } catch (IOException e) {
@@ -134,10 +134,10 @@ public class EditUser2Controller {
             }
             PantallaUtils pantallaUtils = new PantallaUtils();
             pantallaUtils.cerrarEstaPantalla(botonVolver);
-            FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
+            FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), Constantes.TITULO_EDITAR_USUARIO.getDescripcion(), 600, 400);
             EditUserController editUserController = loader.getController();
             editUserController.initData(listaUsuarios, currentUser); // Inicia el controlador de la página de edición de usuarios
-            showInfoAlert("Datos modificados", "Usuario actualizado correctamente"); // Muestra un mensaje de éxito
+            showInfoAlert(Constantes.DATOS_MODIFICADOS.getDescripcion(), Constantes.USUARIO_ACTUALIZADO.getDescripcion()); // Muestra un mensaje de éxito
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,7 +152,7 @@ public class EditUser2Controller {
     public void botonVolverActionPerformed(ActionEvent actionEvent) throws IOException {
         PantallaUtils pantallaUtils = new PantallaUtils();
         pantallaUtils.cerrarEstaPantalla(botonVolver); // Cierra la pantalla de edición de usuario
-        FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), "Editar Usuarios", 600, 400);
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), Constantes.TITULO_EDITAR_USUARIO.getDescripcion(), 600, 400);
         EditUserController editUserController = loader.getController();
         editUserController.initData(listaUsuarios, currentUser); // Regresa a la pantalla de edición de usuarios
     }

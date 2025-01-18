@@ -15,6 +15,11 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
+    <!-- Zona superior con usuario actual -->
+    <HBox alignment="TOP_RIGHT" spacing="10">
+        <Label fx:id="usuarioActualLabel" text="Usuario Actual: Inicie Sesión" id="usuario-label"/>
+    </HBox>
+
     <!-- Título -->
     <Label text="MENU" id="menu-title" alignment="CENTER"/>
 
@@ -25,7 +30,6 @@
         <Button fx:id="realizarDevolucion" text="Prestamos y Devoluciones" id="main-button" onAction="#realizarDevolucionAction"/>
         <Button fx:id="editarUsuario" text="Gestionar Usuarios" id="main-button" onAction="#editarUsuarioAction"/>
         <Button fx:id="cerrarSesion" text="Cerrar Sesion" id="main-button" onAction="#cerrarSesionAction"/>
-
     </VBox>
 
     <!-- Botón Salir -->

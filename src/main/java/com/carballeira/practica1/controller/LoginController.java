@@ -64,8 +64,9 @@ public class LoginController {
                 inicioSesionAction(event);  // Llamar a inicioSesionAction y capturar excepciones
             } catch (IOException e) {
                 e.printStackTrace(); // Manejo de excepción
-                showErrorAlert("Error", "Ocurrió un error durante el inicio de sesión.");
+                showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_INICIO_SESION.getDescripcion());
             }
+
         });
 
         contraseña.setOnAction(event -> {
@@ -73,7 +74,7 @@ public class LoginController {
                 inicioSesionAction(event);  // Llamar a inicioSesionAction y capturar excepciones
             } catch (IOException e) {
                 e.printStackTrace(); // Manejo de excepción
-                showErrorAlert("Error", "Ocurrió un error durante el inicio de sesión.");
+                showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_INICIO_SESION.getDescripcion());
             }
         });
     }
@@ -120,7 +121,7 @@ public class LoginController {
                         // Detener la animación, resetear progreso y mostrar alerta de error
                         timeline.stop();
                         resetearBarraDeProgreso();
-                        Platform.runLater(() -> showErrorAlert("Error", "Los campos no pueden estar vacíos."));
+                        Platform.runLater(() -> showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_VENTANA.getDescripcion()));
                     }
 
                     if (progreso > 0.40 && progreso <= 0.50) {
@@ -138,7 +139,7 @@ public class LoginController {
                             // Detener la animación, resetear progreso y mostrar alerta de error
                             timeline.stop();
                             resetearBarraDeProgreso();
-                            Platform.runLater(() -> showErrorAlert("Error", "Usuario no encontrado o contraseña incorrecta."));
+                            Platform.runLater(() -> showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_USUARIO_EXISTE.getDescripcion()));
                         }
                     }
 
@@ -149,17 +150,17 @@ public class LoginController {
                             Stage stage = new Stage();
                             FXMLLoader loader = null;
                             try {
-                                loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+                                loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), Constantes.TITULO_BIBLIOTECA.getDescripcion(), 400, 600);
                             } catch (IOException ex) {
                                 throw new RuntimeException(ex);
                             }
                             MenuController menuController = loader.getController();
                             menuController.initSesion(currentUser); // Inicializa la sesión del usuario
                             pantallaUtils.cerrarEstaPantalla(botonVolver); // Cierra la ventana de login
-                            Platform.runLater(() -> showInfoAlert("Sesión iniciada", "Sesión iniciada para el usuario: " + currentUser.getNombre()));
+                            Platform.runLater(() -> showInfoAlert(Constantes.SESION_INICIADA.getDescripcion(), Constantes.SESION_INICIADA_MSG.getDescripcion()));
                         } else {
                             // Si las credenciales son incorrectas, muestra un mensaje de error
-                            Platform.runLater(() -> showErrorAlert("Error", "Usuario o contraseña incorrectos."));
+                            Platform.runLater(() -> showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_USUARIO_EXISTE.getDescripcion()));
                         }
                         timeline.stop();  // Detenemos la animación después de completar la carga
                     }
@@ -190,13 +191,13 @@ public class LoginController {
             contraseñaVisible.setText(contraseña.getText());
             contraseña.setVisible(false);
             contraseñaVisible.setVisible(true);
-            mostrarContraseña.setText("Ocultar");
+            mostrarContraseña.setText(Constantes.MOSTRAR.getDescripcion());
         } else {
             // Ocultar contraseña: volver a mostrar el PasswordField y ocultar el TextField
             contraseña.setText(contraseñaVisible.getText());
             contraseña.setVisible(true);
             contraseñaVisible.setVisible(false);
-            mostrarContraseña.setText("Mostrar");
+            mostrarContraseña.setText(Constantes.OCULTAR.getDescripcion());
         }
         contador++;
     }
@@ -212,7 +213,7 @@ public class LoginController {
         currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST));  // Cierra la ventana actual
         PantallaUtils pantallaUtils = new PantallaUtils();
         Stage stage = new Stage();
-        pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);  // Muestra la pantalla principal
+        pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), Constantes.TITULO_BIBLIOTECA.getDescripcion(), 400, 600);  // Muestra la pantalla principal
     }
 
     /**
