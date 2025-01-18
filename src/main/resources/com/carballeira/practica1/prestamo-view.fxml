@@ -38,8 +38,9 @@
                     <columns>
                         <TableColumn fx:id="colTituloReservado" text="Título" prefWidth="100" />
                         <TableColumn fx:id="colAutorReservado" text="Autor" prefWidth="100" />
-                        <TableColumn fx:id="colAñoReservado" text="Año Publicación" prefWidth="100" />
-                        <TableColumn fx:id="colFechaReservado" text="Fecha Reserva" prefWidth="100" />
+                        <TableColumn fx:id="colAñoReservado" text="Año Publicación" prefWidth="40" />
+                        <TableColumn fx:id="colFechaReservado" text="Fecha Reserva" prefWidth="80" />
+                        <TableColumn fx:id="colFechaDevolucion" text="Fecha Devolucion" prefWidth="80" />
                     </columns>
                 </TableView>
             </VBox>
