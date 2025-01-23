@@ -147,41 +147,52 @@ public class EditUserController {
         }
         // Confirmar antes de eliminar
         AlertUtils.showConfirmationAlert(Constantes.CONFIRMAR_BORRADO.getDescripcion(), Constantes.CONFIRMAR_BORRADO_MSG.getDescripcion() + selectedUser.getNombre(), () -> {
-            String emailPrevio = selectedUser.getEmail();
-            String archivoUsuarios = Constantes.ARCHIVO_USUARIOS.getDescripcion();
-            File archivo = new File(archivoUsuarios);
-            List<String> lineas = new ArrayList<>();
-
-            // Leer el archivo y eliminar al usuario seleccionado
-            try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
-                String linea;
-                while ((linea = reader.readLine()) != null) {
-                    // Separar la línea por "," y verificar si no corresponde al usuario seleccionado
-                    String[] datosUsuario = linea.split(",");
-                    if (!datosUsuario[1].equals(emailPrevio)) { // Suponemos que el email es único
-                        lineas.add(linea); // Guardar solo las líneas que no corresponden al usuario
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_LECTURA_ARCHIVO.getDescripcion());
-                return;
-            }
-
-            // Escribir de nuevo el archivo con las líneas restantes
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
-                for (String linea : lineas) {
-                    writer.write(linea);
-                    writer.newLine();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_ESCRITURA_ARCHIVO.getDescripcion());
-                return;
-            }
+            if (borrarUsuarioArchivo(selectedUser)) return;
             arrayUsuarios.remove(selectedUser); // Eliminar el usuario de la lista en memoria
+            borrarUsuarioBBDD(selectedUser);
             mostrarUsuarios(); // Actualizar la tabla de usuarios
             showInfoAlert(Constantes.USUARIO_ELIMINADO.getDescripcion(), Constantes.USUARIO_ELIMINADO_MSG.getDescripcion());
         });
+    }
+
+    private static boolean borrarUsuarioArchivo(Usuario selectedUser) {
+        String emailPrevio = selectedUser.getEmail();
+        String archivoUsuarios = Constantes.ARCHIVO_USUARIOS.getDescripcion();
+        File archivo = new File(archivoUsuarios);
+        List<String> lineas = new ArrayList<>();
+
+        // Leer el archivo y eliminar al usuario seleccionado
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                // Separar la línea por "," y verificar si no corresponde al usuario seleccionado
+                String[] datosUsuario = linea.split(",");
+                if (!datosUsuario[1].equals(emailPrevio)) { // Suponemos que el email es único
+                    lineas.add(linea); // Guardar solo las líneas que no corresponden al usuario
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_LECTURA_ARCHIVO.getDescripcion());
+            return true;
+        }
+
+        // Escribir de nuevo el archivo con las líneas restantes
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
+            for (String linea : lineas) {
+                writer.write(linea);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_ESCRITURA_ARCHIVO.getDescripcion());
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean borrarUsuarioBBDD(Usuario selectedUser){
+        selectedUser.eliminarUsuario(selectedUser.getEmail());
+        return false;
     }
 }

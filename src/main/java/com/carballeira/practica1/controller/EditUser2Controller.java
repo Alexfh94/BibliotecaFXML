@@ -93,6 +93,14 @@ public class EditUser2Controller {
         List<String> lineas = new ArrayList<>();
         boolean usuarioEncontrado = false;
 
+        if (leerArchivo(archivo, emailPrevio, lineas, usuarioEncontrado)) return; // Terminar si no encontramos al usuario
+
+        // Sobrescribir el archivo con las líneas actualizadas
+        //escribirArchivo(archivo, lineas);
+        escribirBBDD(usuario);
+    }
+
+    private boolean leerArchivo(File archivo, String emailPrevio, List<String> lineas, boolean usuarioEncontrado) {
         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
@@ -120,13 +128,15 @@ public class EditUser2Controller {
             // Si no se encuentra el usuario, podemos agregar un mensaje o lanzar una excepción
             if (!usuarioEncontrado) {
                 System.out.println(Constantes.ERROR_EDITAR_USUARIO.getDescripcion());
-                return; // Terminar si no encontramos al usuario
+                return true;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
+    }
 
-        // Sobrescribir el archivo con las líneas actualizadas
+    private void escribirArchivo(File archivo, List<String> lineas) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
             for (String linea : lineas) {
                 writer.write(linea);
@@ -155,5 +165,11 @@ public class EditUser2Controller {
         FXMLLoader loader = pantallaUtils.showEstaPantalla(new Stage(), Constantes.PAGINA_MODIFICAR.getDescripcion(), Constantes.TITULO_EDITAR_USUARIO.getDescripcion(), 600, 400);
         EditUserController editUserController = loader.getController();
         editUserController.initData(listaUsuarios, currentUser); // Regresa a la pantalla de edición de usuarios
+    }
+
+    public void escribirBBDD (Usuario usuario){
+
+        usuario.actualizarUsuario(usuario);
+
     }
 }

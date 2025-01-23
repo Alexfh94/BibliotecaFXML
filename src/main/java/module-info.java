@@ -3,6 +3,7 @@ module com.carballeira.practica1 {
     requires javafx.fxml;
     requires javafx.base;
     requires java.desktop;
+    requires java.sql;
 
     opens com.carballeira.practica1 to javafx.fxml, javafx.base;
     exports com.carballeira.practica1;

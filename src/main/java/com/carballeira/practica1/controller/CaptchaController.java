@@ -80,7 +80,7 @@ public class CaptchaController {
             confirmarCaptcha(); // Verifica el número ingresado por el usuario
         } catch (IOException e) {
             e.printStackTrace(); // Imprimir la traza del error
-            Alert alert = new Alert(Alert.AlertType.ERROR, Constantes.ERROR_VENTANA_CAPTCHA.getDescripcion());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana de CAPTCHA.");
             alert.showAndWait();
         }
     }
@@ -96,8 +96,8 @@ public class CaptchaController {
         currentStage.fireEvent(new WindowEvent(currentStage, WindowEvent.WINDOW_CLOSE_REQUEST)); // Cierra la ventana actual
         PantallaUtils pantallaUtils = new PantallaUtils();
         Stage stage = new Stage();
-        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), Constantes.TITULO_BIBLIOTECA.getDescripcion(), 400, 600);
-        showErrorAlert(Constantes.CONFIRMAR_CIERRE.getDescripcion(), Constantes.CONFIRMAR_CIERRE_MSG.getDescripcion());
+        FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
+        showErrorAlert("Se ha cancelado la creación de la cuenta", "Se ha cancelado la creación de la cuenta");
     }
 
     /**
@@ -110,19 +110,20 @@ public class CaptchaController {
         try {
             if (numero.getText().equals(String.valueOf(numeroPanel.getText()))) { // Verifica si el número ingresado es correcto
                 guardarUsuarioEnArchivo(usuario); // Guarda los datos del usuario
+                guardarUsuarioEnBBDD(usuario);
                 PantallaUtils pantallaUtils = new PantallaUtils();
                 Stage stage = new Stage();
-                FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), Constantes.TITULO_BIBLIOTECA.getDescripcion(), 400, 600);
+                FXMLLoader loader = pantallaUtils.showEstaPantalla(stage, Constantes.PAGINA_INICIAL.getDescripcion(), "BIBLIOTECA", 400, 600);
                 MenuController menuController = loader.getController();
                 menuController.initData(usuario); // Pasa los datos del usuario al controlador del menú principal
                 pantallaUtils.cerrarEstaPantalla(listo); // Cierra la pantalla actual
-                showInfoAlert(Constantes.SESION_INICIADA.getDescripcion(), Constantes.SESION_INICIADA_MSG.getDescripcion()); // Muestra mensaje de éxito
+                showInfoAlert("Cuenta Creada", "Cuenta creada para el usuario: " + usuario.getNombre()); // Muestra mensaje de éxito
             } else {
-                showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_INICIO_SESION.getDescripcion()); // Muestra mensaje de error
+                showErrorAlert("Error", "El número introducido es incorrecto. Inténtelo de nuevo."); // Muestra mensaje de error
             }
         } catch (IOException e) {
             e.printStackTrace(); // Imprimir la traza del error
-            Alert alert = new Alert(Alert.AlertType.ERROR, Constantes.ERROR_VENTANA_CAPTCHA.getDescripcion());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana de CAPTCHA.");
             alert.showAndWait();
         }
     }
@@ -148,7 +149,7 @@ public class CaptchaController {
                 confirmarCaptcha(); // Verifica el número ingresado
             } catch (IOException e) {
                 e.printStackTrace(); // Imprimir la traza del error
-                Alert alert = new Alert(Alert.AlertType.ERROR, Constantes.ERROR_VENTANA_CAPTCHA.getDescripcion());
+                Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo abrir la ventana de CAPTCHA.");
                 alert.showAndWait();
             }
         });
@@ -164,7 +165,7 @@ public class CaptchaController {
 
         try {
             // Abrir el archivo en modo de adición (si no existe, lo crea)
-            fileWriter = new FileWriter(Constantes.ARCHIVO_USUARIOS.getDescripcion(), true);
+            fileWriter = new FileWriter("Usuarios.txt", true);
 
             // Guardamos los datos del usuario en el archivo (nombre, email, teléfono, contraseña y si es admin)
             fileWriter.write(usuario.getNombre() + "," + usuario.getEmail() + "," + usuario.getTelefono() + "," + usuario.getContraseña() + "," + usuario.getAdmin() + "\n");
@@ -174,7 +175,12 @@ public class CaptchaController {
 
         } catch (IOException e) {
             e.printStackTrace(); // Imprimir la traza del error
-            showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_LECTURA_ARCHIVO.getDescripcion()); // Mostrar error al guardar los datos
+            showErrorAlert("Error", "Ocurrió un error al guardar el usuario."); // Mostrar error al guardar los datos
         }
+    }
+
+    private void guardarUsuarioEnBBDD(Usuario usuario){
+
+        usuario.insertarUsuario(usuario);
     }
 }

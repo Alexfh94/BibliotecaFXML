@@ -23,6 +23,7 @@ public class MenuController {
     private ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     private ArrayList<Libro> listaLibros = new ArrayList<>();
     private Usuario currentUser;
+    private final Usuario usuario = new Usuario();
 
     @FXML
     private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, editarUsuario, botonSalir;
@@ -32,7 +33,8 @@ public class MenuController {
 
     @FXML
     public void initialize() {
-        cargarUsuariosDesdeArchivo();
+        //cargarLibrosDesdeArchivo();
+        cargarUsuariosDesdeBBDD();
         cargarLibrosDesdeArchivo();
         configurarBotonesIniciales();
     }
@@ -172,6 +174,10 @@ public class MenuController {
             e.printStackTrace();
             showErrorAlert(Constantes.ERROR_ARCHIVO.getDescripcion(), Constantes.ERROR_CARGAR_USUARIOS.getDescripcion());
         }
+    }
+
+    private void cargarUsuariosDesdeBBDD(){
+        listaUsuarios =  usuario.obtenerTodosUsuarios();
     }
 
     private void cargarLibrosDesdeArchivo() {

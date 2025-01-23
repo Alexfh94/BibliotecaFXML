@@ -77,7 +77,7 @@ public class RegisterController {
 
         // Verificar si el usuario ya existe en la lista
         for (int i = 0; i < listaUsuarios.size(); i++) {
-            if (listaUsuarios.get(i).getNombre().equals(usuario.getNombre())) {
+            if (listaUsuarios.get(i).getEmail().equals(usuario.getEmail())) {
                 contador2++; // Incrementar el contador si el usuario ya existe
             }
         }
