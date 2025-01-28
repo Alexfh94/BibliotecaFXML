@@ -1,13 +1,12 @@
 package com.carballeira.practica1.model;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.sql.*;
 
 
 import static com.carballeira.practica1.utils.AlertUtils.showErrorAlert;
 
-public class Usuario implements DatabaseOperations {
+public class Usuario implements DatabaseOperationsUsuario {
 
     private String nombre;
     private String email;
@@ -159,7 +158,7 @@ public class Usuario implements DatabaseOperations {
     }
 
     @Override
-    public boolean eliminarUsuario(String email) {
+    public boolean eliminarUsuario(String email)  {
 
         String url = "jdbc:sqlite:data/bbdd_practica1.db";
 

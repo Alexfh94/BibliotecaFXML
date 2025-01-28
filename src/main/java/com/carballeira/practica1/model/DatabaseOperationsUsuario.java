@@ -2,7 +2,7 @@ package com.carballeira.practica1.model;
 
 import java.util.List;
 
-public interface DatabaseOperations {
+public interface DatabaseOperationsUsuario {
 
     // Método para insertar un usuario
     boolean insertarUsuario(Usuario usuario);

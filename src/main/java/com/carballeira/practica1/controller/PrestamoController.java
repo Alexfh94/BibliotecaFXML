@@ -36,6 +36,7 @@ public class PrestamoController {
     private Usuario usuario;
     private ArrayList<Libro> listaLibros;
     private ArrayList<Libro> librosReservados = new ArrayList<>();
+    private Libro selectedLibro;
 
     @FXML
     private Button botonDevolver;
@@ -88,7 +89,7 @@ public class PrestamoController {
 
     @FXML
     void lendActionPerformed(ActionEvent event) {
-        Libro selectedLibro = tablaDisponibles.getSelectionModel().getSelectedItem();
+        selectedLibro = tablaDisponibles.getSelectionModel().getSelectedItem();
 
         if (selectedLibro == null) {
             AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.POR_FAVOR_SELECCIONA_LIBRO.getDescripcion());
@@ -114,7 +115,7 @@ public class PrestamoController {
             }
 
             librosReservados.add(selectedLibro);
-            actualizarArchivoLibros();
+            actualizarDbLibros();
             configurarTablaDisponibles();
             configurarTablaReservados();
             rellenarTablas();
@@ -125,7 +126,7 @@ public class PrestamoController {
 
     @FXML
     void returnActionPerformed(ActionEvent event) {
-        Libro selectedLibro = tablaReservados.getSelectionModel().getSelectedItem();
+        selectedLibro = tablaReservados.getSelectionModel().getSelectedItem();
         if (selectedLibro == null) {
             AlertUtils.showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.POR_FAVOR_SELECCIONA_LIBRO_DEVOLVER.getDescripcion());
             return;
@@ -145,7 +146,7 @@ public class PrestamoController {
             }
 
             librosReservados.remove(selectedLibro);
-            actualizarArchivoLibros();
+            actualizarDbLibros();
             configurarTablaDisponibles();
             configurarTablaReservados();
             rellenarTablas();
@@ -285,5 +286,12 @@ public class PrestamoController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    private void actualizarDbLibros(){
+
+        selectedLibro.actualizarLibro(selectedLibro);
+
     }
 }

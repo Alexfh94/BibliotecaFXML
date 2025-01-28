@@ -24,6 +24,7 @@ public class MenuController {
     private ArrayList<Libro> listaLibros = new ArrayList<>();
     private Usuario currentUser;
     private final Usuario usuario = new Usuario();
+    private final Libro libro = new Libro();
 
     @FXML
     private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, editarUsuario, botonSalir;
@@ -33,9 +34,8 @@ public class MenuController {
 
     @FXML
     public void initialize() {
-        //cargarLibrosDesdeArchivo();
         cargarUsuariosDesdeBBDD();
-        cargarLibrosDesdeArchivo();
+        cargarLibrosDesdeBBDD();
         configurarBotonesIniciales();
     }
 
@@ -179,6 +179,11 @@ public class MenuController {
     private void cargarUsuariosDesdeBBDD(){
         listaUsuarios =  usuario.obtenerTodosUsuarios();
     }
+
+    private void cargarLibrosDesdeBBDD(){
+        listaLibros =  libro.obtenerTodosLibros();
+    }
+
 
     private void cargarLibrosDesdeArchivo() {
         BufferedReader reader = null;

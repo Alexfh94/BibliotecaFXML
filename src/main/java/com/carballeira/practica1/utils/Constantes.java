@@ -32,6 +32,7 @@ public enum Constantes {
     ERROR_CARGAR_LIBROS("No se pudo cargar el archivo de libros."),
     ERROR_VENTANA_CAPTCHA("No se pudo abrir la ventana de CAPTCHA."),
     ERROR_USUARIO_EXISTE("El usuario que intenta crear ya existe"),
+    ERROR_USUARIO_NOEXISTE("El usuario no existe"),
     ERROR_TITULO("Error"),
     CONFIRMAR_CIERRE("Confirmar cierre"),
     CONFIRMAR_CIERRE_MSG("¿Estás seguro de que deseas cerrar la sesión actual?"),

@@ -139,7 +139,7 @@ public class LoginController {
                             // Detener la animación, resetear progreso y mostrar alerta de error
                             timeline.stop();
                             resetearBarraDeProgreso();
-                            Platform.runLater(() -> showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_USUARIO_EXISTE.getDescripcion()));
+                            Platform.runLater(() -> showErrorAlert(Constantes.ERROR_TITULO.getDescripcion(), Constantes.ERROR_USUARIO_NOEXISTE.getDescripcion()));
                         }
                     }
 
