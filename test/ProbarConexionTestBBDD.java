@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProbarConexionTestBBDD {
 
@@ -16,20 +16,19 @@ public class ProbarConexionTestBBDD {
     private static final String ADMIN = "AdminTest";
     private Connection conn;
 
-    // Método que se ejecuta antes de cada prueba: Establecer la conexión a la base de datos
     @BeforeEach
     public void setUp() {
         try {
             conn = DriverManager.getConnection(URL);
+            assertNotNull(conn, "La conexión a la base de datos no debería ser nula.");
             System.out.println("Conexión establecida.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            //fail("Error al establecer la conexión antes de la prueba.");
+        } catch (SQLException e) {
+            fail("Error al establecer la conexión antes de la prueba: " + e.getMessage());
         }
     }
-    // Método que se ejecuta después de cada prueba: Comprobar si la fila fue insertada correctamente
+
     @Test
-    public void tearDown() {
+    public void testInsertarUsuario() {
         try (Connection conn = DriverManager.getConnection(URL)) {
             // Verificar si el usuario ya existe
             String checkSql = "SELECT COUNT(*) FROM USUARIOS WHERE EMAIL = ?";
@@ -43,7 +42,7 @@ public class ProbarConexionTestBBDD {
                 }
             }
 
-            // Sentencia SQL para insertar un nuevo usuario
+            // Insertar usuario
             String sql = "INSERT INTO USUARIOS (NOMBRE, EMAIL, TELEFONO, CONTRASEÑA, ADMIN) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, NOMBRE);
@@ -52,23 +51,25 @@ public class ProbarConexionTestBBDD {
                 pstmt.setString(4, CONTRASEÑA);
                 pstmt.setString(5, ADMIN);
                 int filasAfectadas = pstmt.executeUpdate();
+
+                assertTrue(filasAfectadas > 0, "La inserción del usuario debería haber afectado al menos una fila.");
                 System.out.println("Filas insertadas: " + filasAfectadas);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            fail("Error en la inserción del usuario: " + e.getMessage());
         }
     }
 
     @Test
-    public void tearDown1() {
-
-        // Consulta para obtener todos los usuarios e imprimirlos
+    public void testObtenerUsuarios() {
         String sql = "SELECT NOMBRE, EMAIL, TELEFONO, CONTRASEÑA, ADMIN FROM USUARIOS";
         try (Connection conn = DriverManager.getConnection(URL);
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
+            boolean hayResultados = false;
             while (rs.next()) {
+                hayResultados = true;
                 Usuario usuario = new Usuario();
                 usuario.setNombre(rs.getString("NOMBRE"));
                 usuario.setEmail(rs.getString("EMAIL"));
@@ -78,11 +79,9 @@ public class ProbarConexionTestBBDD {
                 System.out.println(usuario);
             }
 
+            assertTrue(hayResultados, "La consulta debería devolver al menos un usuario.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            fail("Error al obtener usuarios: " + e.getMessage());
         }
     }
-
-
-
 }
