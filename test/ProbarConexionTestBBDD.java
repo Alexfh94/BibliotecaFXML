@@ -1,5 +1,6 @@
 import com.carballeira.practica1.model.Usuario;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.*;
@@ -27,10 +28,21 @@ public class ProbarConexionTestBBDD {
         }
     }
 
+    @AfterEach
+    public void tearDown() {
+        try {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+                System.out.println("Conexión cerrada.");
+            }
+        } catch (SQLException e) {
+            fail("Error al cerrar la conexión: " + e.getMessage());
+        }
+    }
+
     @Test
     public void testInsertarUsuario() {
         try (Connection conn = DriverManager.getConnection(URL)) {
-            // Verificar si el usuario ya existe
             String checkSql = "SELECT COUNT(*) FROM USUARIOS WHERE EMAIL = ?";
             try (PreparedStatement checkStmt = conn.prepareStatement(checkSql)) {
                 checkStmt.setString(1, EMAIL);
@@ -42,7 +54,6 @@ public class ProbarConexionTestBBDD {
                 }
             }
 
-            // Insertar usuario
             String sql = "INSERT INTO USUARIOS (NOMBRE, EMAIL, TELEFONO, CONTRASEÑA, ADMIN) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, NOMBRE);
