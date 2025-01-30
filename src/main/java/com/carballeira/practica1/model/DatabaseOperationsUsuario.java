@@ -1,6 +1,6 @@
 package com.carballeira.practica1.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface DatabaseOperationsUsuario {
 
@@ -13,5 +13,5 @@ public interface DatabaseOperationsUsuario {
     boolean eliminarUsuario(String email);
 
     // Método para obtener todos los usuarios
-    List<Usuario> obtenerTodosUsuarios();
+    ArrayList<Usuario> obtenerTodosUsuarios();
 }

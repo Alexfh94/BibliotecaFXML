@@ -13,4 +13,7 @@ module com.carballeira.practica1 {
 
     // Open the model package to javafx.base to allow reflection
     opens com.carballeira.practica1.model to javafx.base;
+
+    // Export model package for testing purposes
+    exports com.carballeira.practica1.model;
 }
