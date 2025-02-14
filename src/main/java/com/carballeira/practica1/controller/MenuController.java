@@ -4,6 +4,7 @@ import com.carballeira.practica1.model.Libro;
 import com.carballeira.practica1.model.Usuario;
 import com.carballeira.practica1.utils.Constantes;
 import com.carballeira.practica1.utils.PantallaUtils;
+import com.carballeira.practica1.utils.ReportGenerating;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -13,6 +14,8 @@ import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 
 import static com.carballeira.practica1.utils.AlertUtils.*;
@@ -25,9 +28,10 @@ public class MenuController {
     private Usuario currentUser;
     private final Usuario usuario = new Usuario();
     private final Libro libro = new Libro();
+    private Connection conn;
 
     @FXML
-    private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, editarUsuario, botonSalir;
+    private Button inicioSesion, crearUsuario, cerrarSesion, realizarDevolucion, editarUsuario, generarInforme, generarInformeFiltrado, botonSalir;
 
     @FXML
     private Label usuarioActualLabel;
@@ -37,6 +41,7 @@ public class MenuController {
         cargarUsuariosDesdeBBDD();
         cargarLibrosDesdeBBDD();
         configurarBotonesIniciales();
+        conn = connect();
     }
 
     private void configurarBotonesIniciales() {
@@ -46,18 +51,24 @@ public class MenuController {
             cerrarSesion.setDisable(true);
             editarUsuario.setDisable(true);
             realizarDevolucion.setDisable(true);
+            generarInforme.setDisable(true);
+            generarInformeFiltrado.setDisable(true);
         } else if (administrador.equals(Constantes.ES_ADMIN.getDescripcion())) {
             crearUsuario.setDisable(true);
             inicioSesion.setDisable(true);
             cerrarSesion.setDisable(false);
             editarUsuario.setDisable(false);
             realizarDevolucion.setDisable(true);
+            generarInforme.setDisable(false);
+            generarInformeFiltrado.setDisable(false);
         } else if (administrador.equals(Constantes.NO_ADMIN.getDescripcion())) {
             crearUsuario.setDisable(true);
             inicioSesion.setDisable(true);
             cerrarSesion.setDisable(false);
             editarUsuario.setDisable(true);
             realizarDevolucion.setDisable(false);
+            generarInforme.setDisable(true);
+            generarInformeFiltrado.setDisable(true);
         }
     }
 
@@ -141,6 +152,38 @@ public class MenuController {
         }
     }
 
+
+    @FXML
+    private void generarInformeAction() {
+        try {
+            ReportGenerating report = new ReportGenerating();
+            report.generateReport(conn);
+            showInfoAlert("Informe generado", "El informe se ha creado correctamente.\nPuede encontrarlo en la carpeta 'REPORTS'");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorAlert("Error al generar informe", "No se pudo generar el informe.");
+        }
+    }
+
+    @FXML
+    private void generarInformeFiltradoAction() {
+        try {
+            ReportFilterController reportFilterController  = (ReportFilterController) abrirNuevaVentana(
+                    generarInformeFiltrado,
+                    Constantes.PAGINA_FILTRO.getDescripcion(),
+                    Constantes.TITULO_REPORTE_FILTRADO.getDescripcion(),
+                    600,
+                    400
+            );
+            reportFilterController.initData(conn);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorAlert(Constantes.ERROR_VENTANA.getDescripcion(), Constantes.ERROR_VENTANA_REPORTE.getDescripcion());
+        }
+    }
+
+
+
     @FXML
     private void botonSalirAction() {
         showConfirmationAlert(Constantes.CONFIRMAR_SALIDA.getDescripcion(), Constantes.CONFIRMAR_SALIDA_MSG.getDescripcion(), () -> {
@@ -215,6 +258,18 @@ public class MenuController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    // Método para establecer la conexión con la base de datos SQLite
+    public static Connection connect() {
+        try {
+
+            Connection conn = DriverManager.getConnection(Constantes.RUTA_BBDD.getDescripcion());
+            return conn;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

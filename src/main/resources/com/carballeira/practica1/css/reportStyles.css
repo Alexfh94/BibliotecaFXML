@@ -1,0 +1,117 @@
+/* General style for the window */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f5f5f5; /* Light gray background */
+    -fx-padding: 20px;
+}
+
+/* TableView style */
+.table-view {
+    -fx-font-size: 12px;
+    -fx-text-fill: #333;
+    -fx-alignment: center-left;
+}
+
+/* Cell styles inside TableView */
+.table-view .cell {
+    -fx-padding: 10px;
+    -fx-border-color: #ddd;
+    -fx-border-width: 0 0 1px 0;
+}
+
+/* Label styles */
+.label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Style for the VBox containing the filter fields */
+.vbox {
+    -fx-spacing: 15px;
+}
+
+/* TextField style */
+.text-field {
+    -fx-pref-width: 200px;
+    -fx-font-size: 14px;
+    -fx-padding: 5px;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5px;
+}
+
+/* Button styles */
+.button {
+    -fx-pref-width: 150px;
+    -fx-pref-height: 40px;
+    -fx-font-size: 14px;
+    -fx-background-color: #007bff; /* Blue background */
+    -fx-text-fill: white;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-weight: bold;
+}
+
+/* Hover effect for buttons */
+.button:hover {
+    -fx-background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Specific button styles for filtering actions */
+#botonFiltrar {
+    -fx-background-color: #28a745; /* Green background */
+}
+
+#botonFiltrar:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+/* 'Generar Informe' button */
+#botonGenerarInforme {
+    -fx-background-color: #ffc107; /* Yellow background */
+}
+
+#botonGenerarInforme:hover {
+    -fx-background-color: #e0a800; /* Darker yellow on hover */
+}
+
+/* 'Volver' button */
+#botonVolver {
+    -fx-background-color: #dc3545; /* Red background */
+}
+
+#botonVolver:hover {
+    -fx-background-color: #c82333; /* Darker red on hover */
+}
+
+/* Align elements in HBox */
+.hbox {
+    -fx-spacing: 20px;
+    -fx-alignment: center;
+    -fx-padding: 15px 0;
+}
+
+/* Specific TableColumn header style */
+.table-view .column-header {
+    -fx-background-color: #007bff; /* Blue background for headers */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Styling for the TextField prompts */
+.text-field .prompt-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #888;
+}
+
+/* Apply padding to the VBox in center */
+.center {
+    -fx-padding: 20px 50px;
+}
+
+/* Adjust the bottom section padding */
+.bottom {
+    -fx-padding: 20px 0;
+}

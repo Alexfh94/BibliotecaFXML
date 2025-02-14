@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Pos?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
@@ -29,6 +28,8 @@
         <Button fx:id="inicioSesion" text="Iniciar Sesion" id="main-button" onAction="#inicioSesionAction"/>
         <Button fx:id="realizarDevolucion" text="Prestamos y Devoluciones" id="main-button" onAction="#realizarDevolucionAction"/>
         <Button fx:id="editarUsuario" text="Gestionar Usuarios" id="main-button" onAction="#editarUsuarioAction"/>
+        <Button fx:id="generarInforme" text="Generar Reporte" id="main-button" onAction="#generarInformeAction"/>
+        <Button fx:id="generarInformeFiltrado" text="Generar Reporte(Filtrado)" id="main-button" onAction="#generarInformeFiltradoAction"/>
         <Button fx:id="cerrarSesion" text="Cerrar Sesion" id="main-button" onAction="#cerrarSesionAction"/>
     </VBox>
 

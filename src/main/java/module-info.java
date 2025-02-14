@@ -4,6 +4,9 @@ module com.carballeira.practica1 {
     requires javafx.base;
     requires java.desktop;
     requires java.sql;
+    requires layout;
+    requires kernel;
+
 
     opens com.carballeira.practica1 to javafx.fxml, javafx.base;
     exports com.carballeira.practica1;
@@ -16,4 +19,6 @@ module com.carballeira.practica1 {
 
     // Export model package for testing purposes
     exports com.carballeira.practica1.model;
+    exports com.carballeira.practica1.utils;
+    opens com.carballeira.practica1.utils to javafx.base, javafx.fxml;
 }

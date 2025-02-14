@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+
+<BorderPane stylesheets="@css/reportStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.carballeira.practica1.controller.ReportFilterController">
+
+    <!-- Top section -->
+    <top>
+        <Label style="-fx-font-family: 'Copperplate Gothic Bold'; -fx-font-size: 20; -fx-alignment: center;" text="GENERAR INFORME FILTRADO" />
+    </top>
+
+    <!-- Center section -->
+    <center>
+        <HBox alignment="CENTER" spacing="50" style="-fx-padding: 20;">
+            <!-- Left section: Filtro de Informe -->
+            <VBox alignment="CENTER" spacing="15">
+                <Label style="-fx-font-family: 'Arial'; -fx-font-size: 16; -fx-font-weight: bold;" text="Filtrar por:" />
+
+                <HBox spacing="10">
+                    <Label text="Seleccionar tabla:" />
+                    <ComboBox fx:id="tableComboBox" promptText="Seleccionar tabla" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Seleccionar campo:" />
+                    <ComboBox fx:id="fieldComboBox" promptText="Seleccionar campo" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Introduzca dato para filtrado:" />
+                    <TextField fx:id="textField" promptText="Escribir aqui..." />
+                </HBox>
+
+                <Button fx:id="botonFiltrar" onAction="#filtrarActionPerformed" text="Filtrar Informe" style="-fx-padding: 10;" />
+            </VBox>
+
+        </HBox>
+    </center>
+
+    <!-- Bottom section -->
+    <bottom>
+        <HBox alignment="CENTER" spacing="20" style="-fx-padding: 10;">
+            <Button fx:id="botonGenerarInforme" onAction="#generateFilteredReport" text="Generar Informe" />
+            <Button fx:id="botonVolver" onAction="#volverActionPerformed" text="Volver" />
+        </HBox>
+    </bottom>
+
+</BorderPane>

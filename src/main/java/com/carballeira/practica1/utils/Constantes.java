@@ -9,16 +9,19 @@ public enum Constantes {
     PAGINA_PRESTAMO("/com/carballeira/practica1/prestamo-view.fxml"),
     PAGINA_MODIFICAR("/com/carballeira/practica1/edit-user-view.fxml"),
     PAGINA_MODIFICAR2("/com/carballeira/practica1/edit-user-view2.fxml"),
+    PAGINA_FILTRO("/com/carballeira/practica1/filtered-report.fxml"),
 
     // Archivos
     ARCHIVO_USUARIOS("Usuarios.txt"),
     ARCHIVO_LIBROS("Libros.txt"),
+    RUTA_BBDD("jdbc:sqlite:data/bbdd_practica1.db"),
 
     // Títulos de ventanas
     TITULO_LOGIN("Iniciar Sesion"),
     TITULO_REGISTRO("Registro"),
     TITULO_PRESTAMO("Realizar prestamos y devoluciones"),
     TITULO_EDITAR_USUARIO("Editar Usuarios"),
+    TITULO_REPORTE_FILTRADO("Generar Reporte Filtrado"),
     TITULO_CAPTCHA("CAPTCHA"),
     TITULO_BIBLIOTECA("BIBLIOTECA"),
 
@@ -27,6 +30,7 @@ public enum Constantes {
     ERROR_INICIO_SESION("No se pudo abrir la ventana de inicio de sesión."),
     ERROR_REGISTRO("No se pudo abrir la ventana de registro."),
     ERROR_EDITAR_USUARIO("No se pudo abrir la ventana de edición de usuario."),
+    ERROR_VENTANA_REPORTE("No se ha podido abrir la ventana de filtrad de reportes"),
     ERROR_ARCHIVO("Error al cargar archivo"),
     ERROR_CARGAR_USUARIOS("No se pudo cargar el archivo de usuarios."),
     ERROR_CARGAR_LIBROS("No se pudo cargar el archivo de libros."),
